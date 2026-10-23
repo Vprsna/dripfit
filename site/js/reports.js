@@ -40,7 +40,9 @@ const nf=n=>Math.round(n*10)/10===Math.round(n)?Math.round(n).toLocaleString('ru
 
 /* ---------- данные ---------- */
 let LOG=ld('df-log',null);
-if(!Array.isArray(LOG)){ // демо-записи за последние недели, чтобы графики были видны сразу; их можно удалить одной кнопкой
+if(!Array.isArray(LOG)){LOG=[];sv('df-log',LOG)}
+else if(LOG.some(x=>x.demo)){LOG=LOG.filter(x=>!x.demo);sv('df-log',LOG)} // убираем старые демо-записи из прошлых версий
+if(false){ // демо-записи за последние недели, чтобы графики были видны сразу; их можно удалить одной кнопкой
  LOG=[];const t=today();let id=1;
  const bench=EX.find(e=>e.n==='Жим штанги лёжа').id,run=EX.find(e=>e.n==='Бег').id,bw=EX.find(e=>e.n==='Вес тела').id,pull=EX.find(e=>e.n==='Подтягивания').id;
  for(let i=27;i>=0;i--){const d=addDays(t,-i);

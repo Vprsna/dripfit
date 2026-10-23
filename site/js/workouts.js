@@ -15,7 +15,8 @@ const plan=e=>{const o={};(C().F[e.t]||[]).forEach(([k,,d])=>o[k]=d);return o};
 const item=e=>Object.assign({ex:e.id},plan(e));
 
 let W=ld('df-workouts',null);
-if(!Array.isArray(W)){const mk=(name,L)=>({id:Date.now()+Math.random(),name,items:L.map(exN).filter(Boolean).map(item),done:{}});
+if(!Array.isArray(W)){W=[];sv('df-workouts',W)}
+if(false){const mk=(name,L)=>({id:Date.now()+Math.random(),name,items:L.map(exN).filter(Boolean).map(item),done:{}});
  W=[mk('Грудь и трицепс',['Жим штанги лёжа','Жим гантелей на наклонной скамье','Отжимания','Разгибания на блоке (трицепс)']),
     mk('Всё тело для старта',['Приседания','Отжимания с колен','Ягодичный мостик на полу','Планка'])];sv('df-workouts',W)}
 const save=()=>sv('df-workouts',W);

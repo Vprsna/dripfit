@@ -8,7 +8,7 @@
    Без сервера (опубликованный макет) файл ничего не меняет — сайт работает на localStorage, как раньше. */
 (()=>{
 const SYNC=['df-log','df-workouts','df-plans','df-plan-done','df-food','df-water','df-water-bonus','df-ach','df-ach-seen','df-charts','df-charts-per',
- 'df-charts-mode','df-vfav','df-level','df-gen','df-train-paid','df-rank','df-dyn','df-dyn-per','df-int','df-shop','df-study','df-home','df-money'];
+ 'df-charts-mode','df-vfav','df-level','df-gen','df-train-paid','df-rank','df-dyn','df-dyn-per','df-int','df-shop','df-study','df-home','df-money','df-money-hide'];
 const RAWKEYS=['df-train-paid']; // хранятся строкой, не JSON
 const isSync=k=>SYNC.includes(k)||/^df-xp-/.test(k);
 const origSet=Storage.prototype.setItem,origGet=Storage.prototype.getItem,origDel=Storage.prototype.removeItem;
@@ -38,7 +38,7 @@ async function pushAll(){for(const k of Object.keys(localStorage).filter(isSync)
 
 /* ---------- вход / выход в интерфейсе ---------- */
 let lastFits=null;
-function applyUser(u){A.user=u;
+function applyUser(u){A.user=u;window.dfStreak=u.streak||0;
  try{pendingGo=document.querySelector('.page.on')&&document.querySelector('.page.on').id!=='auth'?document.querySelector('.page.on').id:'cabinet'}catch(e){}
  if(typeof enter==='function')enter({login:u.login,name:u.name,vip:u.vip,avatar:u.avatar||null});
  try{if(!u.vip){fits=u.fits;lastFits=u.fits}if(typeof showFits==='function')showFits()}catch(e){}
@@ -57,7 +57,12 @@ function hookUI(){
   const btn=$('aSub');if(btn)btn.disabled=true;
   try{const r=await call('POST',reg?'/auth/register':'/auth/login',reg?{login:lg,email:mail,password:pw,name:disp}:{login:lg,password:pw});
    A.token=r.token;raw.set('df-token',r.token);A.user=r.user;
-   if(reg)await pushAll(); // новый аккаунт забирает то, что гость уже успел записать
+   if(reg){ // новый аккаунт начинается с чистого листа, без демо-данных
+    const W7=[[],[],[],[],[],[],[]],E={'df-log':[],'df-workouts':[],'df-plans':{all:[],d:W7},'df-plan-done':{},'df-food':{goal:2200,days:{}},'df-water':{},'df-water-bonus':{},
+     'df-ach':{},'df-ach-seen':[],'df-shop':{own:{},worn:{},freezes:0},'df-study':{tasks:[],paid:{},focus:{},time:{},sched:{cl:'',days:[[],[],[],[],[],[]]},grades:[],cards:[],gpaid:{},reviews:0,noSeed:1},
+     'df-home':{jobs:[],done:{},paid:{},buy:[]},'df-money':{goal:{},ops:[],paid:{}}};
+    raw.set('df-friends',JSON.stringify({list:[],out:[],inc:[]}));
+    for(const k of SYNC)raw.del(k);for(const [k,v] of Object.entries(E)){raw.set(k,JSON.stringify(v));await call('PUT','/sync/'+k,v).catch(()=>{})}}
    else await pull();
    location.reload()}
   catch(err){const m=err.message||'';

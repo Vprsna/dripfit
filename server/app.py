@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS users(
   pass_hash TEXT NOT NULL,
   height REAL, weight REAL, goal TEXT,
   avatar TEXT,
-  fits INTEGER NOT NULL DEFAULT 100,
+  fits INTEGER NOT NULL DEFAULT 0,
   vip INTEGER NOT NULL DEFAULT 0,
   streak INTEGER NOT NULL DEFAULT 0,
   last_train TEXT,
@@ -687,7 +687,7 @@ def claim(ach_id):
 SYNC_KEYS = {"df-log", "df-workouts", "df-plans", "df-plan-done", "df-food", "df-water", "df-water-bonus",
              "df-ach", "df-ach-seen", "df-charts", "df-charts-per", "df-charts-mode", "df-vfav", "df-level",
              "df-gen", "df-train-paid", "df-rank", "df-dyn", "df-dyn-per", "df-int",
-             "df-shop", "df-study", "df-home", "df-money"}
+             "df-shop", "df-study", "df-home", "df-money", "df-money-hide"}
 
 
 def sync_get_all(uid):

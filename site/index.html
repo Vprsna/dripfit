@@ -60,9 +60,9 @@
     <p class="calmmsg" id="calmMsg" hidden>Тишина. Теперь ты в игре.</p>
     <div class="dayc pin" id="dayc">
       <h3>Твой день</h3>
-      <div class="dbig">12 дней <svg class="ic ic-fire" aria-hidden="true"><use href="#i-fire"/></svg></div>
-      <div class="bar"><i style="width:40%"></i></div>
-      <p class="mut">До награды за 30 дней — 18 дней</p>
+      <div class="dbig">0 дней <svg class="ic ic-fire" aria-hidden="true"><use href="#i-fire"/></svg></div>
+      <div class="bar"><i style="width:0%"></i></div>
+      <p class="mut">До награды за 30 дней — 30 дней</p>
       <p class="dtoday">Тренировка сегодня: <b id="dayDone">0 из 1</b></p>
       <button class="btn" id="dayBtn">Отметить тренировку +50</button>
     </div>
@@ -74,7 +74,7 @@
     <div class="blk"><div class="bh"><h2>Ближайшие награды</h2><button class="all" data-go="rules">Все →</button></div><div id="near"></div></div>
   </section>
   <div class="grid">
-    <div class="card"><h2>Серия</h2><p class="big">12 дней <svg class="ic ic-fire" aria-hidden="true"><use href="#i-fire"/></svg></p><div class="bar"><i style="width:40%"></i></div><p class="mut">До награды за 30 дней — 18 дней</p></div>
+    <div class="card"><h2>Серия</h2><p class="big">0 дней <svg class="ic ic-fire" aria-hidden="true"><use href="#i-fire"/></svg></p><div class="bar"><i style="width:0%"></i></div><p class="mut">До награды за 30 дней — 30 дней</p></div>
     <div class="card"><h2>Календарь</h2><div id="cal"></div></div>
     <div class="card rkcard" data-rk="fits"><h2>Рейтинг недели</h2><div class="rkopt" role="tablist" aria-label="Показатель рейтинга"></div><ol class="rank rkl"></ol><p class="mut rkfoot"></p></div>
   </div>
@@ -238,6 +238,7 @@
 </section>
 <section id="money" class="page">
   <h1>Деньги<br><em>Цель и факт</em></h1>
+  <label class="mnsw"><input type="checkbox" id="mnShow" checked><span class="sw"></span>Показывать вкладку «Деньги» в меню</label>
   <div class="stgrid">
     <div class="card pin">
       <h2 id="mnMonth">Месяц</h2>
@@ -305,6 +306,7 @@
       <button class="btn alt" data-go="ach">Достижения</button>
     </div>
     <div class="card"><h2>Профиль</h2>
+      <label class="mnsw"><input type="checkbox" id="mnShow2" checked><span class="sw"></span>Вкладка «Деньги»</label>
       <p class="pfnick">Никнейм: <b id="pfNick">—</b> <small class="mut">по нему ищут друзья, не меняется</small></p>
       <label>Отображаемое имя<input id="pfName" maxlength="32" placeholder="Любые символы"></label>
       <label>Рост, см<input id="pfH" type="number" min="100" max="250"></label>
@@ -563,7 +565,7 @@ S('Магазин',T(['Покупка','Цена'],[['Заморозка сер�
 S('Честная игра','<ul class="list"><li>Одна отметка привычки в сутки</li><li>День считается по времени сервера</li><li>Тренировка засчитывается, если в ней есть упражнение с результатом</li><li>Больше 3 тренировок в день идут в историю без фитов</li><li>Награду за достижение нужно забрать кнопкой</li></ul>');
 
 // ===== магазин (макет; покупки в модуле Б будут списываться в БД) =====
-let fits=1240,freezes=0;const own={},worn={frame:null,theme:null,fx:null,music:null};const fm=n=>n===Infinity?'∞':n.toLocaleString('ru-RU');
+let fits=0,freezes=0;const own={},worn={frame:null,theme:null,fx:null,music:null};const fm=n=>n===Infinity?'∞':n.toLocaleString('ru-RU');
 const TH=(a,b)=>'<i class="sw" style="background:linear-gradient(135deg,'+a+','+b+')"></i>';
 const ITEMS=[
  {id:'freeze',t:'use',n:'Заморозка серии',p:150,v:'<span class="ico"><svg class="ic ic-snow" aria-hidden="true"><use href="#i-snow"/></svg></span>'},
@@ -643,13 +645,13 @@ function setMode(m){mode=m;afrm.dataset.mode=m;aIn.classList.toggle('on',m==='in
 function resetShop(){Object.keys(own).forEach(k=>delete own[k]);worn.frame=worn.theme=worn.fx=worn.music=null;freezes=0;apply();drawShop()}
 function syncHead(){hIn.hidden=hUp.hidden=!!user;hOut.hidden=!user}
 function enter(u){
-  user=u;fits=u.vip?Infinity:100;resetShop();loadShop();syncHead();
+  user=u;fits=u.vip?Infinity:0;resetShop();loadShop();syncHead();
   const rank=u.vip?'Легенда, ур. 99':'Новичок, ур. 1';user.rank=rank;
   uname.textContent=u.name+' · '+rank;xpTxt.textContent=u.vip?'∞ опыта':'0 / 100 опыта';
   document.querySelector('.prof .bar i').style.width=u.vip?'100%':'0%';
   pfName.value=u.name;pfNick.textContent='@'+u.login;afrm.reset();pfMsg.textContent='';avErr.textContent='';setAvatar(u.avatar||null);
   const t=pendingGo||'cabinet';pendingGo=null;go(t)}
-function leave(){user=null;pendingGo=null;fits=1240;resetShop();syncHead();setAvatar(null);go('main')}
+function leave(){user=null;pendingGo=null;fits=0;resetShop();syncHead();setAvatar(null);go('main')}
 aIn.onclick=()=>setMode('in');aUp.onclick=()=>setMode('up');
 hIn.onclick=()=>{pendingGo=null;setMode('in');go('auth')};
 hUp.onclick=()=>{pendingGo=null;setMode('up');go('auth')};

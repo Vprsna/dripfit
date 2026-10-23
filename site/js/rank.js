@@ -16,7 +16,7 @@ const since=n=>C().addDays(C().today(),-n+1);
 function mine(){const L=LOG(),w=since(7),m=since(30),E=C();let ton=0,km=0;const days=new Set();
  L.forEach(x=>{const e=E.byId(x.ex);if(!e)return;if(x.d>=w){if(e.t==='wr')ton+=x.s*x.r*x.w;if(e.t==='cardio')km+=x.km}if(x.d>=m&&!['cm','kg','pct'].includes(e.t))days.add(x.d)});
  let f=0;try{f=typeof fits==='number'&&isFinite(fits)?fits:99999}catch(e){}
- return{fits:f,ton,streak:12,cnt:days.size,km}}
+ return{fits:f,ton,streak:window.dfStreak??0,cnt:days.size,km}}
 function row(name,vals){const k=['fits','ton','streak','cnt','km'];const o={name};k.forEach((m,i)=>o[m]=vals[i]);return o}
 function board(m){const me=Object.assign({name:'Вы',me:1},mine());
  return [...DEMO.map(d=>row(d[0],d.slice(1))),me].sort((a,b)=>b[m]-a[m])}

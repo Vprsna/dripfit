@@ -28,7 +28,7 @@ async function refresh(){if(!srv())return;try{const r=await window.dfApi.call('G
 async function act(method,path,data,ok){try{await window.dfApi.call(method,path,data);if(ok)msg(ok,true)}catch(e){msg(e.message)}refresh()}
 const hue=t=>{let h=0;for(const c of t)h=(h*31+c.charCodeAt(0))%360;return h};
 let F=ld('df-friends',null);
-if(!F||!Array.isArray(F.list)){F={list:['artem_pro','liza_fit'],out:[],inc:['sonya.run']};sv('df-friends',F)}
+if(!F||!Array.isArray(F.list)){F={list:[],out:[],inc:[]};sv('df-friends',F)}
 const save=()=>sv('df-friends',F);
 const me=()=>{try{return user&&user.login?clean(user.login):'гость'}catch(e){return'гость'}};
 const ava=u=>'<span class="fav" style="--h:'+hue(u.n)+'">'+esc((u.name||u.n)[0].toUpperCase())+'</span>';

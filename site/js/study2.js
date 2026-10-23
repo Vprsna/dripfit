@@ -154,7 +154,7 @@ $('cdLearn').onclick=e=>{if(e.target.id==='cdGo'){cur=due()[0];shown=false;drawC
  cur.box=ok?Math.min(5,(cur.box||1)+1):1;cur.due=ok?addD(today(),GAP[cur.box]):today();S().reviews++;save();
  const rest=due().filter(c=>c!==cur);cur=rest[0]||null;shown=false;drawCards()};
 $('cdList').onclick=e=>{const b=e.target.closest('[data-cdel]');if(!b)return;S().cards=S().cards.filter(c=>c.id!==+b.dataset.cdel);save();drawCards()};
-if(!st.cards.length){st.cards=[{id:1,q:'apple',a:'яблоко',box:1,due:''},{id:2,q:'Формула площади круга',a:'S = πr²',box:1,due:''},{id:3,q:'Год крещения Руси',a:'988',box:1,due:''}];save()}
+if(!st.cards.length&&!st.noSeed){st.cards=[{id:1,q:'apple',a:'яблоко',box:1,due:''},{id:2,q:'Формула площади круга',a:'S = πr²',box:1,due:''},{id:3,q:'Год крещения Руси',a:'988',box:1,due:''}];save()}
 
 /* ================= время по предметам ================= */
 function drawTime(){const T=S().time||{},from=addD(today(),-6),sum={};

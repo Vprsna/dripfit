@@ -967,3 +967,11 @@ body.phone #main .dayc.pin{--tx:0px;--rot:0deg}
 .stgrid .newpl .btn{width:auto!important;padding:10px 16px;margin:0}
 .hmform{grid-template-columns:1fr 1fr auto!important}.hmform #hmT{grid-column:1/-1}
 @media(max-width:520px){.hmform{grid-template-columns:1fr 1fr!important}.hmform .btn{grid-column:1/-1}}
+.mnsw{display:flex!important;align-items:center;justify-content:center;gap:10px;margin:0 auto 22px!important;font-size:14px!important;font-weight:700;cursor:var(--c-ptr,pointer)}
+.mnsw input{position:absolute;opacity:0;width:0;height:0}
+.mnsw .sw{position:relative;width:46px;height:26px;border-radius:999px;background:var(--pill,#333);border:1.5px solid var(--bd2,#ffffff40);transition:background .2s;flex:none}
+.mnsw .sw::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s}
+.mnsw input:checked+.sw{background:var(--acc)}.mnsw input:checked+.sw::after{transform:translateX(20px)}
+.mnsw input:focus-visible+.sw{outline:2px solid var(--acc);outline-offset:2px}
+.prof .mnsw,.card .mnsw{margin:4px 0 8px!important;justify-content:flex-start}
+#tnav .navdim{opacity:.35}#tnav .navdim:hover{opacity:.75}

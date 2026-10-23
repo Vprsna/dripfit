@@ -11,9 +11,7 @@ const todayIdx=()=>(new Date().getDay()+6)%7, dateKey=()=>new Date().toISOString
 const escH=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ld=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v??d}catch(e){return d}},sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
 let plans=ld('df-plans',null),uid=Date.now();
-if(!plans||typeof plans!=='object'){plans={all:[],d:[[],[],[],[],[],[],[]]};
- plans.d[todayIdx()]=[{id:1,t:'Жим лёжа',x:'4×10 · 60 кг'},{id:2,t:'Отжимания',x:'3×20'},{id:3,t:'Разгибания на блоке',x:'3×12'}];
- plans.all=[{id:4,t:'Растяжка',x:'5 минут'}];sv('df-plans',plans)}
+if(!plans||typeof plans!=='object'){plans={all:[],d:[[],[],[],[],[],[],[]]};sv('df-plans',plans)}
 let done=ld('df-plan-done',{});if(done.date!==dateKey())done={date:dateKey(),ids:[],paid:false};
 const plan=document.getElementById('plan'),pb=document.getElementById('planBtn'),pc=document.getElementById('planCnt'),pe=document.getElementById('planEmpty'),pdy=document.getElementById('planDay');
 const todayList=()=>[...plans.d[todayIdx()],...plans.all];
@@ -42,10 +40,20 @@ plist.onclick=e=>{const b=e.target.closest('.pdel');if(!b)return;const id=+b.dat
 renderPlan();renderEd();
 window.dfPlans={add(items){const L=plans.d[todayIdx()];items.forEach(p=>L.push({id:++uid,t:p.t,x:p.x||''}));sv('df-plans',plans);renderPlan();renderEd()}};
 const _go2=window.go;window.go=function(id){_go2(id);if(id==='main')renderPlan();if(id==='cabinet')renderEd()};
-const CH=[['5 тренировок за 7 дней',3,5,'+150'],['Растяжка каждый день',4,7,'+80'],['Три видео из библиотеки',1,3,'+40']];
-document.getElementById('chal').innerHTML=CH.map(c=>'<div class="it"><div class="r"><b>'+c[0]+'</b><span class="rw">'+c[3]+' фитов</span></div>'+bar(c[1]/c[2]*100)+'<small class="mut">'+c[1]+' из '+c[2]+'</small></div>').join('');
-const NR=[['Привычка','14 дней серии',12,14,'+120'],['Втянулся','50 тренировок',41,50,'+200'],['Рекордсмен','10 личных рекордов',7,10,'+250']];
-document.getElementById('near').innerHTML=NR.map(c=>'<div class="it"><div class="r"><b>'+c[0]+'</b><span class="rw">'+c[4]+' фитов</span></div>'+bar(c[2]/c[3]*100)+'<small class="mut">'+c[1]+' · '+Math.round(c[2]/c[3]*100)+'%</small></div>').join('');
+/* челленджи и ближайшие награды считаются по настоящим записям (у нового аккаунта — с нуля) */
+function drawCN(){const C=window.dfCat,L=C?C.log():[],t=C?C.today():'',wk=C?C.addDays(t,-6):'',D=new Set(),S=new Set(),U=new Set();
+ L.forEach(x=>{const e=C.byId(x.ex);if(!e||['cm','kg','pct'].includes(e.t))return;D.add(x.d);U.add(x.ex);if(x.d>=wk&&e.b==='Растяжка и мобильность')S.add(x.d)});
+ const wD=[...D].filter(d=>d>=wk).length,fav=(ld('df-vfav',[])||[]).length,st=window.dfStreak??0;
+ const CH=[['5 тренировок за 7 дней',Math.min(wD,5),5,'+150'],['Растяжка каждый день',S.size,7,'+80'],['Три видео в избранное',Math.min(fav,3),3,'+40']];
+ document.getElementById('chal').innerHTML=CH.map(c=>'<div class="it"><div class="r"><b>'+c[0]+'</b><span class="rw">'+c[3]+' фитов</span></div>'+bar(c[1]/c[2]*100)+'<small class="mut">'+c[1]+' из '+c[2]+'</small></div>').join('');
+ const NR=[['Привычка','14 дней серии',Math.min(st,14),14,'+120'],['Втянулся','50 дней с тренировками',Math.min(D.size,50),50,'+200'],['Разнообразие','10 разных упражнений',Math.min(U.size,10),10,'+40']];
+ document.getElementById('near').innerHTML=NR.map(c=>'<div class="it"><div class="r"><b>'+c[0]+'</b><span class="rw">'+c[4]+' фитов</span></div>'+bar(c[2]/c[3]*100)+'<small class="mut">'+c[1]+' · '+Math.round(c[2]/c[3]*100)+'%</small></div>').join('')}
+function drawStreak(){const st=window.dfStreak??0,w=n=>n%10===1&&n%100!==11?'день':[2,3,4].includes(n%10)&&![12,13,14].includes(n%100)?'дня':'дней';
+ document.querySelectorAll('#dayc,#main .grid .card:first-child').forEach(c=>{const big=c.querySelector('.dbig,.big');if(big&&big.firstChild)big.firstChild.textContent=st+' '+w(st)+' ';
+  const b=c.querySelector('.bar i');if(b)b.style.width=Math.min(100,st/30*100)+'%';const m=[...c.querySelectorAll('p')].find(p=>/До награды/.test(p.textContent));
+  if(m)m.textContent=st>=30?'Награда за 30 дней получена!':'До награды за 30 дней — '+(30-st)+' '+w(30-st)})}
+setTimeout(()=>{drawCN();drawStreak()});addEventListener('dfapi-user',drawStreak);addEventListener('dfapi-user',drawCN);
+const _go3=window.go;window.go=function(id){_go3(id);if(id==='main')drawCN()};
 document.querySelectorAll('.blocks .all[data-go]').forEach(b=>b.onclick=()=>window.go(b.dataset.go));
 
 

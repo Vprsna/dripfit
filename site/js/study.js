@@ -13,7 +13,7 @@ const PAY=5,MAXPAY=5,GOAL=3;
 
 let S=ld('df-study',null);
 if(!S||!Array.isArray(S.tasks)){const t=today();
- S={tasks:[{id:1,t:'Конспект по физике',s:'Физика',due:t,done:null},{id:2,t:'Тренажёр по JS — 3 задачи',s:'Программирование',due:addD(t,2),done:null},{id:3,t:'Повторить слова к тесту',s:'Английский',due:'',done:addD(t,-1)}],paid:{},focus:{}};sv('df-study',S)}
+ S={tasks:[],paid:{},focus:{},noSeed:1};sv('df-study',S)}
 S.paid=S.paid||{};S.focus=S.focus||{};S.time=S.time||{};
 const save=()=>sv('df-study',S);
 let flt='todo',editId=null;

@@ -13,7 +13,7 @@ const rub=n=>Math.round(n).toLocaleString('ru-RU')+' ₽';
 /* ======================= ДОМ ======================= */
 if($('hmForm')){
 let H=ld('df-home',null);
-if(!H||!Array.isArray(H.jobs))H={jobs:[{id:1,t:'Вынести мусор',z:'Кухня',r:'d'},{id:2,t:'Заправить кровать',z:'Моя комната',r:'d'},{id:3,t:'Пропылесосить',z:'Вся квартира',r:'w'},{id:4,t:'Полить цветы',z:'Растения',r:'w'}],done:{},paid:{},buy:[{id:1,t:'Молоко',ok:false},{id:2,t:'Хлеб',ok:false}]};
+if(!H||!Array.isArray(H.jobs))H={jobs:[],done:{},paid:{},buy:[]};
 H.done=H.done||{};H.paid=H.paid||{};H.buy=H.buy||[];
 const save=()=>sv('df-home',H);
 const RN={d:'каждый день',w:'раз в неделю',o:'один раз'};
@@ -43,10 +43,16 @@ $('buyClr').onclick=()=>{H.buy=H.buy.filter(b=>!b.ok);save();draw()};
 draw();const _go=window.go;window.go=function(id){_go(id);if(id==='home')draw()};
 }
 
+/* ===== показывать ли вкладку «Деньги» (например, для детей можно скрыть) ===== */
+(()=>{const key='df-money-hide',nav=document.querySelector('#tnav [data-go=money]');
+ const home=nav&&nav.previousElementSibling,cab=document.querySelector('#tnav [data-go=cabinet]');
+ const set=(hide,save)=>{if(nav){nav.classList.toggle('navdim',hide);nav.title=hide?'Вкладка скрыта — включить можно на ней самой или в профиле':'';if(hide)nav.parentNode.insertBefore(nav,cab);else if(home)home.after(nav)}['mnShow','mnShow2'].forEach(id=>{const c=$(id);if(c)c.checked=!hide});if(save)sv(key,hide)};
+ set(!!ld(key,false));['mnShow','mnShow2'].forEach(id=>{const c=$(id);if(c)c.onchange=()=>set(!c.checked,true)})})();
+
 /* ======================= ДЕНЬГИ ======================= */
 if($('mnForm')){
 let M=ld('df-money',null);
-if(!M||!Array.isArray(M.ops)){const t=today(),m=t.slice(0,7);M={goal:{},ops:[{id:1,d:m+'-01',ty:'in',sum:15000,cat:'Подработка',note:''},{id:2,d:m+'-03',ty:'out',sum:1200,cat:'Еда',note:'кафе'},{id:3,d:m+'-05',ty:'out',sum:800,cat:'Спорт',note:'протеин'}],paid:{}};M.goal[m]=30000}
+if(!M||!Array.isArray(M.ops))M={goal:{},ops:[],paid:{}};
 M.goal=M.goal||{};M.paid=M.paid||{};
 const save=()=>sv('df-money',M);
 const CATS={in:['Подработка','Зарплата','Стипендия','Карманные','Подарок','Продажа','Другое'],out:['Еда','Транспорт','Спорт','Учёба','Развлечения','Одежда','Связь','Подарки','Другое']};

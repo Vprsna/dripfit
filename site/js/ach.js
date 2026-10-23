@@ -23,7 +23,7 @@ function stats(){const C=window.dfCat,L=C?C.log():[],days=new Set(),dayTon={};le
   foodDays:Object.values(food.days||{}).filter(a=>a&&a.length).length,water8:Object.values(water).filter(n=>n>=8).length,
   ...(()=>{const st=ld('df-study',{})||{},T=st.tasks||[];return{focusN:Object.values(st.focus||{}).reduce((x,n)=>x+n,0),fives:(st.grades||[]).filter(g=>g.g===5).length,
    reviews:st.reviews||0,tasksDone:T.filter(t=>t.done).length,onTime:T.filter(t=>t.done&&t.due&&t.done<=t.due).length}})(),
-  friends:(ld('df-friends',{list:[]}).list||[]).length,fav:(ld('df-vfav',[])||[]).length,streak:12,lvl}}
+  friends:(ld('df-friends',{list:[]}).list||[]).length,fav:(ld('df-vfav',[])||[]).length,streak:window.dfStreak??0,lvl}}
 
 /* [id, раздел, иконка, название, условие, показатель, цель, награда] */
 const A=[
