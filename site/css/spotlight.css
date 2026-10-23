@@ -1,0 +1,4 @@
+/* spotlight.css — тёмное пятно на самом заднем фоне, следует за курсором; оттенок = цвет текущего под-сайта (--acc) */
+#spot{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(circle 170px at var(--mx,50%) var(--my,35%),color-mix(in srgb,color-mix(in srgb,var(--acc) 28%,#000) var(--spa,55%),transparent) 0%,transparent 100%)}
+@media(hover:none){#spot{display:none}}

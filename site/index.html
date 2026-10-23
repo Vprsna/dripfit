@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drip Fit</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<!-- ПОРЯДОК ВАЖЕН: сначала base.css, затем themes.css -->
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/themes.css">
+<link rel="stylesheet" href="css/library.css">
+<link rel="stylesheet" href="css/cursors.css">
+<link rel="stylesheet" href="css/spotlight.css">
+<link rel="stylesheet" href="css/shell.css">
+</head>
+<body data-theme="main">
+
+<!-- ЛОГОТИП: вариант «молния-тень + тень букв». Цвета берутся из темы под-сайта (--acc, --on) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<clipPath id="dfClip"><rect x="86" y="86" width="340" height="340" rx="60" transform="rotate(45 256 256)"/></clipPath>
+<symbol id="dfLogo" viewBox="0 0 512 512">
+  <rect x="86" y="86" width="340" height="340" rx="60" transform="rotate(45 256 256)" style="fill:var(--acc)"/>
+  <g clip-path="url(#dfClip)"><g transform="translate(256 256) scale(.9) translate(-259 -256)" opacity=".4"><path d="M300 40 150 290h95l-40 182L368 214h-98z" fill="#141414" stroke="#141414" stroke-width="10" stroke-linejoin="round"/></g></g>
+  <text x="262" y="320" text-anchor="middle" font-family="Manrope,Arial Black,Arial,sans-serif" font-weight="800" font-size="150" fill="#000" opacity=".35">DF</text>
+  <text x="256" y="312" text-anchor="middle" font-family="Manrope,Arial Black,Arial,sans-serif" font-weight="800" font-size="150" fill="#fff">DF</text>
+</symbol></defs></svg>
+<div id="spot" aria-hidden="true"></div>
+<div class="hd3"><div class="ann" id="ann"><span>Закрой день и получи <b>+50 Фит</b> · заморозка серии в магазине</span><button type="button" class="annx" id="annX" aria-label="Закрыть уведомление"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+<div class="brow"><div class="vmode"><button class="vmbtn" id="vmBtn" type="button" aria-haspopup="true" aria-expanded="false" title="Вид интерфейса"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M7.5 20h9"/></svg></button>
+<div class="vmenu" id="vmMenu" hidden><button type="button" data-m="pc"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M7.5 20h9"/></svg><span>Компьютер</span></button><button type="button" data-m="phone"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 19h4"/></svg><span>Телефон</span></button></div></div><nav class="brands" id="tnav"><button data-go="main">Drip Fit</button><button data-go="sport">Спорт</button><button data-go="study">Учёба</button><button data-go="home">Дом</button><button data-go="money">Деньги</button><button data-go="lib">Библиотека</button><button data-go="shop">Магазин</button><button data-go="rules">Награды</button><button data-go="ach">Достижения</button><button data-go="reports">Отчёты</button><button data-go="food">Питание</button><button data-go="cabinet">Личный кабинет</button></nav></div>
+<header class="top"><a class="logo" data-go="main" role="link" aria-label="Drip Fit, на главную"><svg viewBox="0 0 512 512"><use href="#dfLogo"/></svg></a><div class="hr"><span class="chip"><svg class="ic ic-bolt" aria-hidden="true"><use href="#i-bolt"/></svg> 1 240 фитов</span>
+    <button class="hb" id="hIn">Войти</button>
+    <button class="hb" id="hUp">Регистрация</button>
+    <button class="hb" id="hOut" hidden>Выйти</button></div></header></div>
+<button class="menubtn" id="mb"><svg class="ic ic-menu" aria-hidden="true"><use href="#i-menu"/></svg> Меню</button>
+<div class="menu" id="menu">
+  <nav>
+    <button data-go="main"><span>Главная</span><img src="img/menu/home.png" alt=""></button>
+    <button data-go="sport"><span>Спорт</span><img src="img/menu/sport.png" alt=""></button>
+    <button data-go="study"><span>Учёба</span><img src="img/menu/study.png" alt=""></button>
+    <button data-go="home"><span>Дом</span><img src="img/menu/house.png" alt=""></button>
+    <button data-go="money"><span>Деньги</span><img src="img/menu/money.png" alt=""></button>
+    <button data-go="cabinet"><span>Кабинет</span><img src="img/menu/cabinet.png" alt=""></button>
+    <button data-go="rules"><span>Награды</span><img src="img/menu/rewards.png" alt=""></button>
+    <button data-go="shop"><span>Магазин</span><img src="img/menu/shop.png" alt=""></button>
+    <button data-go="lib"><span>Библиотека</span><img src="img/menu/library.png" alt=""></button>
+  </nav>
+  
+</div>
+
+<main>
+<!-- ГЛАВНАЯ -->
+<section id="main" class="page on">
+  <div class="hero" id="hero">
+    <div class="fwbox" id="fwbox"></div>
+    <i class="beam"></i>
+    <h1 class="chaos"><span class="ln">Качай привычки</span><span class="ln acc">Копи <span class="fits" id="fitsWord">фиты</span></span></h1>
+    <p class="lead">Тренируйся, отмечай привычки, копи фиты и поднимайся в рейтинге.</p>
+    <div class="holdrow"><button class="hold" id="hold">Зажми. Соберись.</button><small class="holdnote" id="holdNote">Зажми кнопку или Enter. Шум затихнет.</small></div>
+    <p class="calmmsg" id="calmMsg" hidden>Тишина. Теперь ты в игре.</p>
+    <div class="dayc" id="dayc">
+      <h3>Твой день</h3>
+      <div class="dbig">12 дней <svg class="ic ic-fire" aria-hidden="true"><use href="#i-fire"/></svg></div>
+      <div class="bar"><i style="width:40%"></i></div>
+      <p class="mut">До награды за 30 дней — 18 дней</p>
+      <p class="dtoday">Тренировка сегодня: <b id="dayDone">0 из 1</b></p>
+      <button class="btn" id="dayBtn">Отметить тренировку +50</button>
+    </div>
+  </div>
+  <section class="blocks">
+    <div class="blk"><div class="bh"><h2>План дня</h2><small class="mut" id="planCnt">0 из 4</small></div>
+      <ul class="plan" id="plan"></ul><div class="pempty" id="planEmpty" hidden><p class="mut">На сегодня планов нет.</p><button class="btn alt" type="button" data-goto="planner">Запланировать в кабинете</button></div><button class="btn" id="planBtn" disabled>Закрыть план +50</button><button type="button" class="btn alt planed" data-goto="planner">Изменить план</button></div>
+    <div class="blk"><div class="bh"><h2>Челленджи недели</h2><button class="all" data-go="rules">Все →</button></div><div id="chal"></div></div>
+    <div class="blk"><div class="bh"><h2>Ближайшие награды</h2><button class="all" data-go="rules">Все →</button></div><div id="near"></div></div>
+  </section>
+  <div class="grid">
+    <div class="card"><h2>Серия</h2><p class="big">12 дней <svg class="ic ic-fire" aria-hidden="true"><use href="#i-fire"/></svg></p><div class="bar"><i style="width:40%"></i></div><p class="mut">До награды за 30 дней — 18 дней</p></div>
+    <div class="card"><h2>Календарь</h2><div id="cal"></div></div>
+    <div class="card rkcard" data-rk="fits"><h2>Рейтинг недели</h2><div class="rkopt" role="tablist" aria-label="Показатель рейтинга"></div><ol class="rank rkl"></ol><p class="mut rkfoot"></p></div>
+  </div>
+  <div class="card pin wide dyncard" id="dynCard">
+    <div class="dynh"><div><h2>Динамика прогресса</h2><p class="mut" id="dynSub"></p></div><div class="dynsw"><div class="rkopt dynper" id="dynPer"><button type="button" data-p="w">6 недель</button><button type="button" data-p="d">Эта неделя</button></div><div class="rkopt" id="dynOpt"><button type="button" data-m="ton">Тоннаж</button><button type="button" data-m="cnt">Тренировки</button><button type="button" data-m="km">Кардио, км</button></div></div></div>
+    <div class="dynbars" id="dynBars"></div>
+    <div class="dynfoot"><p class="dyntrend" id="dynTrend"></p><button type="button" class="lnk2" data-go="cabinet">Все графики →</button></div>
+  </div>
+</section>
+
+<!-- СПОРТ -->
+<section id="sport" class="page">
+  <h1>Тренировки<br><em>Сегодня</em></h1>
+  <div class="lvlbar" id="lvlBar" role="radiogroup" aria-label="Твой уровень">
+    <span class="lvlq">Твой уровень</span>
+    <div class="lvlseg"><button type="button" role="radio" data-l="novice"><b>Новичок</b><small>только база</small></button><button type="button" role="radio" data-l="amateur"><b>Любитель</b><small>база + зал</small></button><button type="button" role="radio" data-l="pro"><b>Профи</b><small>всё</small></button></div>
+    <p class="lvldesc" id="lvlDesc"></p>
+  </div>
+  <div class="grid">
+    <div class="card pin"><h2 id="todayT">Сегодня</h2>
+      <ul class="list todayl" id="todayL"></ul>
+      <button class="btn" id="todayBtn">Отметить тренировку +50 фитов</button>
+      <button type="button" class="btn alt" data-wo-go>Настроить тренировку</button></div>
+    <div class="card pin vlcard"><h2>Библиотека видео</h2><p class="mut">Выбери подборку — откроется сразу нужный раздел</p><div class="vltiles" id="vlTiles"></div><button type="button" class="btn alt" id="vlAll">Вся библиотека</button></div>
+    <div class="card pin rkcard" data-rk="ton"><h2>Рейтинг</h2><div class="rkopt" role="tablist" aria-label="Показатель рейтинга"></div><ol class="rank rkl"></ol><p class="mut rkfoot"></p></div>
+  </div>
+
+  <div class="sptools" id="spTools">
+    <div class="card pin spcard" id="gen">
+      <div class="sph"><h2>Генератор тренировки</h2><button type="button" class="lnk2" id="genNew">Собрать другую ↻</button></div>
+      <div class="spopt" id="genG"></div>
+      <div class="sprow"><span class="mut">Время</span><div class="spopt" id="genT"><button type="button" data-t="30">30 мин</button><button type="button" data-t="45">45 мин</button><button type="button" data-t="60">60 мин</button></div></div>
+      <div class="sprow"><span class="mut">Где</span><div class="spopt" id="genE"><button type="button" data-e="Зал">Зал</button><button type="button" data-e="Гантели">Гантели</button><button type="button" data-e="Без инвентаря">Без инвентаря</button></div></div>
+      <ol class="genl" id="genList"></ol>
+      <button type="button" class="btn" id="genAdd">Добавить в «План дня»</button><button type="button" class="btn alt" id="genWo">Сохранить как тренировку</button>
+      <p class="genmsg" id="genMsg" role="status" hidden></p>
+    </div>
+    <div class="card pin spcard intcard" id="intBox" data-ph="idle">
+      <div class="sph"><h2>Интервальный таймер</h2><button type="button" class="intfs" id="intFs" aria-label="Во весь экран" title="Во весь экран"><svg class="ic"><use href="#i-expand"/></svg></button></div>
+      <div class="spopt" id="intModes"><button type="button" data-m="tabata">Табата 20/10</button><button type="button" data-m="emom">EMOM 1 мин</button><button type="button" data-m="custom">Свой</button></div>
+      <div class="intcust" id="intCustom" hidden><label>Работа, с<input type="number" name="w" min="5" max="600" inputmode="numeric"></label><label>Отдых, с<input type="number" name="r" min="0" max="600" inputmode="numeric"></label><label>Раунды<input type="number" name="n" min="1" max="50" inputmode="numeric"></label></div>
+      <div class="intdisp"><span class="intph" id="intPh"></span><b class="inttime" id="intTime" aria-live="off"></b><span class="intrnd" id="intRound"></span><div class="intbar"><i id="intBar"></i></div></div>
+      <div class="intbtns"><button type="button" class="btn" id="intGo">Старт</button><button type="button" class="btn alt" id="intReset">Сброс</button></div>
+      <p class="mut psm">Перед стартом 5 секунд на подготовку. Звук на смену фазы и последние 3 секунды.</p>
+    </div>
+    <div class="card pin spcard">
+      <div class="sph"><h2>Личные рекорды</h2><button type="button" class="lnk2" id="recGo">В отчёты →</button></div>
+      <ul class="plist rec" id="recList"></ul>
+      <p class="mut psm">Считаются сами по записям в «Отчётах». «Новый!» — рекорд за последние 7 дней.</p>
+    </div>
+    <div class="card pin wide spcard muscard">
+      <div class="sph"><h2>Карта мышц</h2></div>
+      <div class="musw"><div class="musmap" id="musMap"><p class="mushint">Нажми на мышцу</p><div class="musfigs"><figure><svg viewBox="0 0 200 430" aria-label="Тело спереди"><path class="sil" d="M92 46 L91 58 L70 65 L54 68 L43 79 L38 97 L38 120 L36 146 L32 172 L32 198 L34 206 L30 214 L31 226 L38 231 L44 223 L43 210 L45 204 L52 190 L58 164 L60 146 L62 122 L64 108 L66 124 L68 168 L70 192 L64 208 L60 236 L62 270 L67 298 L67 308 L62 332 L64 362 L71 388 L72 396 L65 409 L69 416 L92 416 L92 404 L88 392 L92 352 L90 318 L92 304 L96 276 L98 250 L100 236 L100 236 L102 250 L104 276 L108 304 L110 318 L108 352 L112 392 L108 404 L108 416 L131 416 L135 409 L128 396 L129 388 L136 362 L138 332 L133 308 L133 298 L138 270 L140 236 L136 208 L130 192 L132 168 L134 124 L136 108 L138 122 L140 146 L142 164 L148 190 L155 204 L157 210 L156 223 L162 231 L169 226 L170 214 L166 206 L168 198 L168 172 L164 146 L162 120 L162 97 L157 79 L146 68 L130 65 L109 58 L108 46Z"/><ellipse class="sil" cx="100" cy="29" rx="14" ry="18"/><path class="ln" d="M92 30 Q100 35 108 30"/><path class="ln" d="M100 72 V112"/><path class="ln" d="M76 300 Q80 305 84 300 M124 300 Q120 305 116 300"/><g data-m="traps" tabindex="0" role="button" aria-label="Трапеции"><title>Трапеции</title><path d="M91 57 Q80 62 68 67 Q80 71 91 64Z"/><path d="M 109 57 Q 120 62 132 67 Q 120 71 109 64 Z"/></g><g data-m="delts" tabindex="0" role="button" aria-label="Плечи"><title>Плечи</title><path d="M66 68 Q51 69 44 82 Q39 97 43 112 Q52 106 59 97 Q67 86 75 73Z"/><path d="M 134 68 Q 149 69 156 82 Q 161 97 157 112 Q 148 106 141 97 Q 133 86 125 73 Z"/></g><g data-m="chest" tabindex="0" role="button" aria-label="Грудь"><title>Грудь</title><path d="M77 72 Q90 68 99 72 V112 Q86 120 70 113 Q60 105 61 96 Q65 82 77 72Z"/><path d="M 123 72 Q 110 68 101 72 V 112 Q 114 120 130 113 Q 140 105 139 96 Q 135 82 123 72 Z"/></g><g data-m="biceps" tabindex="0" role="button" aria-label="Бицепс"><title>Бицепс</title><path d="M44 115 Q52 107 59 101 Q61 121 57 140 Q51 150 42 146 Q39 130 44 115Z"/><path d="M 156 115 Q 148 107 141 101 Q 139 121 143 140 Q 149 150 158 146 Q 161 130 156 115 Z"/></g><g data-m="forearms" tabindex="0" role="button" aria-label="Предплечья"><title>Предплечья</title><path d="M41 150 Q50 151 57 144 Q59 162 53 184 Q49 199 43 205 Q36 203 34 195 Q34 170 41 150Z"/><path d="M 159 150 Q 150 151 143 144 Q 141 162 147 184 Q 151 199 157 205 Q 164 203 166 195 Q 166 170 159 150 Z"/></g><g data-m="abs" tabindex="0" role="button" aria-label="Пресс"><title>Пресс</title><path d="M86 116 H98 V132 H86Z"/><path d="M 114 116 H 102 V 132 H 114 Z"/><path d="M86 135 H98 V150 H86Z"/><path d="M 114 135 H 102 V 150 H 114 Z"/><path d="M86 153 H98 V168 H86Z"/><path d="M 114 153 H 102 V 168 H 114 Z"/><path d="M86 171 H98 Q98 196 92 203 Q86 194 86 171Z"/><path d="M 114 171 H 102 Q 102 196 108 203 Q 114 194 114 171 Z"/><path d="M70 115 Q78 119 84 125 V182 Q76 187 72 181 Q66 150 70 115Z"/><path d="M 130 115 Q 122 119 116 125 V 182 Q 124 187 128 181 Q 134 150 130 115 Z"/></g><g data-m="quads" tabindex="0" role="button" aria-label="Квадрицепс"><title>Квадрицепс</title><path d="M68 207 Q61 236 65 270 Q69 290 77 297 Q75 260 79 222 Q76 211 68 207Z"/><path d="M 132 207 Q 139 236 135 270 Q 131 290 123 297 Q 125 260 121 222 Q 124 211 132 207 Z"/><path d="M80 216 Q90 222 92 237 Q92 270 86 294 Q81 298 78 296 Q76 256 80 216Z"/><path d="M 120 216 Q 110 222 108 237 Q 108 270 114 294 Q 119 298 122 296 Q 124 256 120 216 Z"/><path d="M86 271 Q94 263 96 277 Q94 292 88 297Z"/><path d="M 114 271 Q 106 263 104 277 Q 106 292 112 297 Z"/></g><g data-m="adductors" tabindex="0" role="button" aria-label="Приводящие бедра"><title>Приводящие бедра</title><path d="M84 212 Q96 222 99 237 Q98 256 92 263 Q90 236 84 212Z"/><path d="M 116 212 Q 104 222 101 237 Q 102 256 108 263 Q 110 236 116 212 Z"/></g><g data-m="calves" tabindex="0" role="button" aria-label="Икры"><title>Икры</title><path d="M68 312 Q62 332 66 357 Q70 377 76 387 Q80 360 80 330 Q78 315 68 312Z"/><path d="M 132 312 Q 138 332 134 357 Q 130 377 124 387 Q 120 360 120 330 Q 122 315 132 312 Z"/><path d="M82 313 Q90 319 90 341 Q88 370 82 387 Q80 360 82 313Z"/><path d="M 118 313 Q 110 319 110 341 Q 112 370 118 387 Q 120 360 118 313 Z"/></g></svg><figcaption>Спереди</figcaption></figure><figure><svg viewBox="0 0 200 430" aria-label="Тело сзади"><path class="sil" d="M92 46 L91 58 L70 65 L54 68 L43 79 L38 97 L38 120 L36 146 L32 172 L32 198 L34 206 L30 214 L31 226 L38 231 L44 223 L43 210 L45 204 L52 190 L58 164 L60 146 L62 122 L64 108 L66 124 L68 168 L70 192 L64 208 L60 236 L62 270 L67 298 L67 308 L62 332 L64 362 L71 388 L72 396 L65 409 L69 416 L92 416 L92 404 L88 392 L92 352 L90 318 L92 304 L96 276 L98 250 L100 236 L100 236 L102 250 L104 276 L108 304 L110 318 L108 352 L112 392 L108 404 L108 416 L131 416 L135 409 L128 396 L129 388 L136 362 L138 332 L133 308 L133 298 L138 270 L140 236 L136 208 L130 192 L132 168 L134 124 L136 108 L138 122 L140 146 L142 164 L148 190 L155 204 L157 210 L156 223 L162 231 L169 226 L170 214 L166 206 L168 198 L168 172 L164 146 L162 120 L162 97 L157 79 L146 68 L130 65 L109 58 L108 46Z"/><ellipse class="sil" cx="100" cy="29" rx="14" ry="18"/><path class="ln" d="M88 16 Q100 9 112 16"/><path class="ln dash" d="M100 136 V200"/><path class="ln" d="M100 207 V245"/><g data-m="traps" tabindex="0" role="button" aria-label="Трапеции"><title>Трапеции</title><path d="M100 48 Q92 56 72 66 Q84 76 92 96 Q97 120 100 136Z"/><path d="M 100 48 Q 108 56 128 66 Q 116 76 108 96 Q 103 120 100 136 Z"/></g><g data-m="delts" tabindex="0" role="button" aria-label="Плечи"><title>Плечи</title><path d="M66 68 Q51 69 44 82 Q39 97 43 112 Q52 106 59 97 Q67 86 75 73Z"/><path d="M 134 68 Q 149 69 156 82 Q 161 97 157 112 Q 148 106 141 97 Q 133 86 125 73 Z"/></g><g data-m="triceps" tabindex="0" role="button" aria-label="Трицепс"><title>Трицепс</title><path d="M44 113 Q51 105 59 100 Q63 119 58 142 Q50 150 42 146 Q38 130 44 113Z"/><path d="M 156 113 Q 149 105 141 100 Q 137 119 142 142 Q 150 150 158 146 Q 162 130 156 113 Z"/></g><g data-m="forearms" tabindex="0" role="button" aria-label="Предплечья"><title>Предплечья</title><path d="M41 150 Q50 151 57 144 Q59 162 53 184 Q49 199 43 205 Q36 203 34 195 Q34 170 41 150Z"/><path d="M 159 150 Q 150 151 143 144 Q 141 162 147 184 Q 151 199 157 205 Q 164 203 166 195 Q 166 170 159 150 Z"/></g><g data-m="lats" tabindex="0" role="button" aria-label="Широчайшие"><title>Широчайшие</title><path d="M70 92 Q84 98 96 126 L96 140 Q88 166 78 184 Q70 176 68 150 Q64 118 70 92Z"/><path d="M 130 92 Q 116 98 104 126 L 104 140 Q 112 166 122 184 Q 130 176 132 150 Q 136 118 130 92 Z"/><path d="M74 76 Q86 82 90 96 Q80 96 71 90 Q70 82 74 76Z"/><path d="M 126 76 Q 114 82 110 96 Q 120 96 129 90 Q 130 82 126 76 Z"/></g><g data-m="lower" tabindex="0" role="button" aria-label="Поясница"><title>Поясница</title><path d="M88 150 Q96 154 98 160 V200 Q92 204 86 198 Q84 172 88 150Z"/><path d="M 112 150 Q 104 154 102 160 V 200 Q 108 204 114 198 Q 116 172 112 150 Z"/></g><g data-m="glutes" tabindex="0" role="button" aria-label="Ягодицы"><title>Ягодицы</title><path d="M68 203 Q84 197 99 207 V245 Q86 253 72 247 Q62 233 68 203Z"/><path d="M 132 203 Q 116 197 101 207 V 245 Q 114 253 128 247 Q 138 233 132 203 Z"/></g><g data-m="hams" tabindex="0" role="button" aria-label="Бицепс бедра"><title>Бицепс бедра</title><path d="M68 253 Q66 280 72 300 Q78 304 84 300 Q84 272 82 253Z"/><path d="M 132 253 Q 134 280 128 300 Q 122 304 116 300 Q 116 272 118 253 Z"/><path d="M84 253 Q96 253 96 263 Q96 286 90 300 Q86 302 86 280Z"/><path d="M 116 253 Q 104 253 104 263 Q 104 286 110 300 Q 114 302 114 280 Z"/></g><g data-m="calves" tabindex="0" role="button" aria-label="Икры"><title>Икры</title><path d="M69 311 Q60 334 70 360 Q76 364 80 356 Q82 330 80 312Z"/><path d="M 131 311 Q 140 334 130 360 Q 124 364 120 356 Q 118 330 120 312 Z"/><path d="M82 312 Q92 316 94 334 Q92 356 84 362 Q80 340 82 312Z"/><path d="M 118 312 Q 108 316 106 334 Q 108 356 116 362 Q 120 340 118 312 Z"/></g></svg><figcaption>Сзади</figcaption></figure></div></div>
+        <div class="musinfo"><span class="mut muskick">Мышца</span><h3 id="musName"></h3><p class="musdesc" id="musDesc"></p>
+          <h4 class="mush">Лучшие упражнения <small class="mut">нажми, чтобы записать в отчёт</small></h4><div class="musex" id="musEx"></div>
+          <div class="musbtns"><button type="button" class="lnk2" id="musMore"></button><button type="button" class="lnk2" id="musVid">Все видео по теме →</button></div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- УЧЁБА -->
+<section id="study" class="page">
+  <h1>Учёба<br><em>Фокус</em></h1>
+  <div class="grid">
+    <div class="card"><h2>На сегодня</h2><ul class="list"><li>Конспект по физике <span>выполнено</span></li><li>Тренажёр по JS <span>в процессе</span></li></ul><button class="btn">Фокус-сессия 25 минут</button></div>
+    <div class="card"><h2>Серия учёбы</h2><p class="big">7 дней</p><div class="bar"><i style="width:70%"></i></div></div>
+  </div>
+</section>
+
+<!-- ДОМ -->
+<section id="home" class="page">
+  <h1>Дом<br><em>Порядок</em></h1>
+  <div class="grid">
+    <div class="card"><h2>Дела на неделю</h2><ul class="list"><li>Вынести мусор <span>+5 фитов</span></li><li>Приготовить ужин <span>+15 фитов</span></li><li>Помыть пол <span>+20 фитов</span></li></ul></div>
+    <div class="card"><h2>Порядок</h2><p class="big">4 из 7</p><div class="bar"><i style="width:57%"></i></div></div>
+  </div>
+</section>
+
+<!-- ДЕНЬГИ -->
+<section id="money" class="page">
+  <h1>Деньги<br><em>Цель и факт</em></h1>
+  <div class="grid">
+    <div class="card"><h2>Октябрь</h2><p class="big">112 400 ₽ <small>из 150 000 ₽</small></p><div class="bar"><i style="width:75%"></i></div><button class="btn">Добавить доход</button></div>
+    <div class="card"><h2>Прошлые месяцы</h2><ul class="list"><li>Сентябрь <span>138 000 / 140 000</span></li><li>Август <span>150 500 / 130 000</span></li></ul></div>
+  </div>
+</section>
+
+<!-- ВХОД И РЕГИСТРАЦИЯ -->
+<section id="auth" class="page">
+  <h1>Добро пожаловать<br><em>в Drip Fit</em></h1>
+  <div class="card authcard">
+    <div class="seg"><button type="button" id="aIn" class="on">Вход</button><button type="button" id="aUp">Регистрация</button></div>
+    <p class="mut" id="aNote"></p>
+    <form id="afrm" data-mode="in" novalidate>
+      <label><span id="lgLbl">Никнейм или почта</span><input id="fLogin" autocomplete="username" autocapitalize="off" spellcheck="false"></label><small class="hint reg">Латиница, цифры, точка, _ и -. По нему тебя найдут друзья, сменить его нельзя.</small><small class="err" id="eLogin"></small>
+      <label class="reg">Отображаемое имя <span class="mut">(необязательно)</span><input id="fDisp" maxlength="32" autocomplete="nickname" placeholder="Любые символы: Пятёрка ⚡"></label><small class="err reg" id="eDisp"></small>
+      <label class="reg">Почта<input id="fMail" type="email" autocomplete="email"></label><small class="err reg" id="eMail"></small>
+      <label>Пароль<span class="pw"><input id="fPass" type="password" autocomplete="current-password"><button type="button" id="eye" aria-label="Показать пароль"><svg class="ic ic-eye" aria-hidden="true"><use href="#i-eye"/></svg></button></span></label><small class="err" id="ePass"></small>
+      <label class="reg">Повтор пароля<input id="fPass2" type="password" autocomplete="new-password"></label><small class="err reg" id="ePass2"></small>
+      <button class="btn" id="aSub">Войти</button>
+      <p class="err" id="aMsg"></p>
+    </form>
+  </div>
+</section>
+
+<!-- КАБИНЕТ -->
+<section id="cabinet" class="page">
+  <h1>Кабинет<br><em>Твой прогресс</em></h1>
+  <div class="card wk"><button class="btn alt" id="pw">‹ Назад</button><b id="wl"></b><button class="btn alt" id="nw">Вперёд ›</button></div>
+  <div class="grid">
+    <div class="card prof">
+      <div class="avatar"><span><svg class="ic ic-smile" aria-hidden="true"><use href="#i-smile"/></svg></span></div>
+      <h2 id="uname">Гость</h2>
+      <div class="bar"><i style="width:62%"></i></div>
+      <p class="mut" id="xpTxt">0 / 100 опыта</p>
+      <button class="btn" id="chg">Мои стили и рамки</button>
+      <button class="btn alt" id="avUp">Загрузить фото</button>
+      <button class="btn alt" id="avDel" hidden>Убрать фото</button>
+      <input type="file" id="avFile" accept="image/png,image/jpeg,image/webp" hidden>
+      <p class="err" id="avErr"></p>
+      <button class="btn alt" data-go="ach">Достижения</button>
+    </div>
+    <div class="card"><h2>Профиль</h2>
+      <p class="pfnick">Никнейм: <b id="pfNick">—</b> <small class="mut">по нему ищут друзья, не меняется</small></p>
+      <label>Отображаемое имя<input id="pfName" maxlength="32" placeholder="Любые символы"></label>
+      <label>Рост, см<input id="pfH" type="number" min="100" max="250"></label>
+      <label>Вес, кг<input id="pfW" type="number" min="30" max="300"></label>
+      <label>Цель<select id="pfG"><option>Набрать форму</option><option>Похудеть</option><option>Набрать массу</option><option>Выносливость</option></select></label>
+      <button class="btn" id="pfSave">Сохранить</button><p class="mut" id="pfMsg"></p></div>
+    <div class="card" id="invcard"><h2>Мои стили</h2><div id="inv"></div></div>
+    <div class="card"><h2>Тренировки по группам</h2><div class="donut" id="dn"></div><p class="mut" id="lg"></p></div>
+    <div class="card"><h2>Активность за неделю</h2>
+      <div class="cols wkcols" id="wkCols"></div>
+      <p class="mut wksum" id="wkSum"></p></div>
+  </div>
+  <div class="card chcard">
+    <div class="chtop"><div><h2>Мои графики</h2><p class="mut">Строятся по записям во вкладке «Отчёты». Три небольших или один большой.</p></div>
+      <div class="chopts"><div class="chper" id="chMode" aria-label="Вид графиков"><button type="button" data-m="3">Три графика</button><button type="button" data-m="1">Один большой</button></div><div class="chper" id="chPer"><button type="button" data-p="7">7 дней</button><button type="button" data-p="30">30 дней</button><button type="button" data-p="90">90 дней</button><button type="button" data-p="0">Всё</button></div></div></div>
+    <div class="charts" id="charts"></div>
+    <div class="chbtm"><button type="button" class="btn alt" id="chGo">Заполнить отчёт</button><button type="button" class="btn alt" id="chDemo">Удалить демо-записи</button></div>
+  </div>
+  <div class="card pin wide wocard" id="woCard">
+    <div class="woh"><h2>Мои тренировки</h2><p class="mut">Собери тренировку из упражнений, меняй подходы и вес, отмечай выполнение — результаты сами попадут в «Отчёты».</p></div>
+    <div id="woHome">
+      <form class="wonew" id="woNew" autocomplete="off"><input id="woName" maxlength="40" placeholder="Название новой тренировки, например «Ноги и пресс»" aria-label="Название тренировки"><button class="btn" type="submit">Создать</button></form>
+      <div class="wolist" id="woList"></div>
+    </div>
+    <div class="woed" id="woEd" hidden></div>
+  </div>
+  <div class="card friends" id="friends">
+    <div class="frtop"><div><h2>Друзья</h2><p class="mut">Твой ник: <b id="frMe"></b> <button type="button" class="frcopy" id="frCopy">Копировать</button></p></div></div>
+    <form class="frform" id="frForm" autocomplete="off"><label class="rsearch"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><input id="frQ" placeholder="Ник друга, например max_power" aria-label="Ник друга" maxlength="25"></label><button class="btn" type="submit">Добавить</button><div class="frsug" id="frSug" hidden></div></form>
+    <p class="frmsg" id="frMsg" role="status" hidden></p>
+    <div id="frInBox" hidden><h3 class="frh">Заявки тебе</h3><ul class="frl" id="frIn"></ul></div>
+    <div id="frOutBox" hidden><h3 class="frh">Ты отправил</h3><ul class="frl" id="frOut"></ul></div>
+    <h3 class="frh">Друзья по фитам за неделю</h3>
+    <p class="frcnt" id="frCnt"></p>
+    <ul class="frl" id="frList"></ul>
+    <p class="mut psm">Сейчас это демо: в «базе» десять тестовых пользователей, а заявки принимаются сами. С модулем Б друзья будут настоящими.</p>
+  </div>
+  <div class="card planner" id="planner">
+    <div class="ph"><h2>Мои планы</h2><p class="mut">Задачи на сегодня автоматически появляются на главной в блоке «План дня».</p></div>
+    <div class="ptabs" id="ptabs" role="tablist"></div>
+    <form class="padd" id="padd" autocomplete="off"><input id="pText" maxlength="60" placeholder="Что сделать: например, «Жим лёжа»" required><input id="pDet" maxlength="30" placeholder="Подходы, повторы, вес: 4,10,60" inputmode="decimal" aria-describedby="pPrev"><button class="btn" type="submit">Добавить</button></form>
+    <p class="pprev" id="pPrev" aria-live="polite"></p>
+    <ul class="plist" id="plist"></ul>
+    <p class="mut psm">Пока планы хранятся только в этом браузере. С модулем Б они будут сохраняться в аккаунте.</p>
+  </div>
+</section>
+
+<!-- НАГРАДЫ: правила экономики фитов -->
+<section id="rules" class="page">
+  <h1>Награды<br><em>Как зарабатывать фиты</em></h1>
+  <div id="rl" class="stack"></div>
+</section>
+
+<!-- МАГАЗИН -->
+<section id="shop" class="page">
+  <h1>Магазин<br><em>Трать фиты</em></h1>
+  <div class="card bal"><span>Твой баланс</span><b><svg class="ic ic-bolt" aria-hidden="true"><use href="#i-bolt"/></svg> <i id="fitsnum">1 240</i></b></div>
+  <div class="stall"><div class="awn"></div><div class="shelf" id="shelf"></div></div>
+</section>
+
+<!-- ДОСТИЖЕНИЯ (из кабинета) -->
+<section id="ach" class="page">
+  <h1>Достижения<br><em>Забирай фиты</em></h1>
+  <div class="card pin achsum" id="achSum"></div>
+  <div class="rkopt achf" id="achF" role="tablist" aria-label="Фильтр достижений"><button type="button" data-f="all">Все</button><button type="button" data-f="ready">Можно забрать</button><button type="button" data-f="done">Получены</button><button type="button" data-f="todo">В процессе</button></div>
+  <div class="achgrid" id="achGrid"></div>
+  <p class="mut psm achnote">Прогресс считается сам по твоим записям на сайте. Пока данные хранятся в браузере, в модуле Б — в аккаунте.</p>
+</section>
+
+<!-- БИБЛИОТЕКА: хаб -->
+<section id="lib" class="page">
+  <h1>Библиотека<br><em>Музыка и зарядка</em></h1>
+  <div class="hub">
+    <button class="hubc m" data-go="music"><h2>Музыка</h2><p>Загружай свои mp3, собирай плейлисты</p></button>
+    <button class="hubc v" data-go="video"><h2>Упражнения</h2><p>Видео, зарядка, тренировки. Поиск по каталогу</p></button>
+  </div>
+</section>
+
+<!-- БИБЛИОТЕКА: музыка -->
+<section id="music" class="page">
+  <div class="aurora" id="aurora"><i></i><i></i><i></i><i></i><i></i></div>
+  <button class="pill back" data-go="lib"><svg class="ic ic-back" aria-hidden="true"><use href="#i-back"/></svg> Библиотека</button>
+  <h1>Моя <em>музыка</em></h1>
+  <div class="stage" id="np">
+    <div class="cover" id="cover"><svg class="ic ic-note" aria-hidden="true"><use href="#i-note"/></svg></div>
+    <div class="sbar">
+      <button class="rb" id="bMute" title="Звук" aria-label="Звук"><svg class="ic ic-volume" aria-hidden="true"><use href="#i-volume"/></svg></button>
+      <button class="rb" id="bShuf" title="Перемешать" aria-label="Перемешать"><svg class="ic ic-shuffle" aria-hidden="true"><use href="#i-shuffle"/></svg></button>
+      <div class="pillbar" id="pillbar" title="Нажми, чтобы перемотать"><i class="fill" id="fill"></i><b id="npName">Выбери трек</b></div>
+      <button class="rb" id="bLike" title="Понравилось" aria-label="Понравилось"><svg class="ic ic-heart" aria-hidden="true"><use href="#i-heart"/></svg></button>
+      <button class="rb" id="bRep" title="Повтор" aria-label="Повтор"><svg class="ic ic-repeat" aria-hidden="true"><use href="#i-repeat"/></svg></button>
+    </div>
+    <div class="tm"><span id="tCur">0:00</span><span>/</span><span id="tDur">0:00</span>
+      <input class="rng vol" id="vol" type="range" min="0" max="100" value="80" aria-label="Громкость"></div>
+    <div class="ctl2">
+      <button class="sk" id="bPrev" title="Назад" aria-label="Назад"><svg class="ic ic-prev" aria-hidden="true"><use href="#i-prev"/></svg></button>
+      <button class="play" id="bPlay" title="Играть / пауза" aria-label="Играть или пауза"><svg class="ic ic-play" aria-hidden="true"><use href="#i-play"/></svg></button>
+      <button class="sk" id="bNext" title="Дальше" aria-label="Дальше"><svg class="ic ic-next" aria-hidden="true"><use href="#i-next"/></svg></button>
+    </div>
+    <small id="npSub" hidden></small><input id="seek" type="range" min="0" max="1000" value="0" hidden>
+  </div>
+  <div class="glass">
+    <h2>Поиск музыки</h2>
+    <form class="newpl msrch" id="mForm" autocomplete="off"><input id="mQ" maxlength="60" placeholder="Исполнитель или трек, например «Eminem Till I Collapse»" aria-label="Поиск музыки"><button class="btn lbtn" type="submit">Найти</button></form>
+    <p class="mut psm" id="mNote"></p>
+    <div class="mres" id="mRes"></div>
+    <h2>Загрузка</h2>
+    <div class="drop" id="drop">Перетащи mp3 сюда или<br><br>
+      <label class="btn lbtn">Добавить треки<input id="files" type="file" accept="audio/*,.mp3" multiple hidden></label></div>
+    <h2>Плейлисты</h2>
+    <div class="chips" id="plChips"></div>
+    <form class="newpl" id="plForm"><input id="plName" maxlength="30" placeholder="Название нового плейлиста" autocomplete="off"><button class="btn lbtn" type="submit">Создать</button></form>
+    <h2 id="listTitle">Все треки</h2>
+    <div id="tracks"></div>
+  </div>
+</section>
+
+<!-- БИБЛИОТЕКА: упражнения (каталог в духе YouTube) -->
+<section id="video" class="page">
+  <button class="pill back" data-go="lib"><svg class="ic ic-back" aria-hidden="true"><use href="#i-back"/></svg> Библиотека</button>
+  <div id="vList">
+    <h1>Упражнения<br><em>и зарядка</em></h1>
+    <form class="ysearch" id="vForm"><input id="vq" placeholder="Поиск упражнений" autocomplete="off"><button type="submit" aria-label="Найти"><svg class="ic ic-search" aria-hidden="true"><use href="#i-search"/></svg></button></form>
+    <div class="ycats" id="vCats"></div>
+    <div class="card soon" id="vSoon"><h2>Скоро здесь появятся упражнения</h2><p class="mut">Каталог готов: поиск, категории и просмотр видео. Осталось добавить сами ролики.</p></div>
+    <div class="vgrid" id="vGrid"></div>
+    <div class="ytbox" id="ytBox"><p class="mut">Не нашёл нужное упражнение?</p><button type="button" class="btn alt" id="ytGo"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg> Найти на YouTube</button><p class="mut psm" id="ytNote"></p><div class="vgrid ytres" id="ytRes"></div></div>
+  </div>
+  <div class="watch" id="vWatch" hidden></div>
+</section>
+
+<!-- ПИТАНИЕ -->
+<section id="food" class="page">
+  <h1>Питание<br><em>Рацион</em></h1>
+  <div class="fdgrid">
+    <div class="card pin fdgoal">
+      <h2>Цель на день</h2>
+      <div class="fdring" id="fdRing"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="50" class="trk"/><circle cx="60" cy="60" r="50" class="val" id="fdArc"/></svg><div class="fdrv"><b id="fdEaten">0</b><small>из <span id="fdGoalT"></span> ккал</small></div></div>
+      <p class="fdleft" id="fdLeft"></p>
+      <div class="fdmac" id="fdMac"></div>
+      <form class="fdgf" id="fdGoalF"><label>Моя норма, ккал<input type="number" id="fdGoal" min="800" max="6000" step="50" inputmode="numeric"></label><button class="btn alt" type="submit">Сохранить</button></form>
+      <p class="mut psm">Норму лучше подобрать вместе с врачом или диетологом — у всех она своя.</p>
+    </div>
+    <div class="card pin fdadd">
+      <h2>Что ты съел?</h2>
+      <form class="fdform" id="fdForm" autocomplete="off">
+        <label class="rsearch"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><input id="fdQ" placeholder="Например: гречка с курицей" aria-label="Блюдо или продукт" maxlength="80"></label>
+        <div class="fdrow"><label>Вес, г<input type="number" id="fdG" value="200" min="1" max="3000" inputmode="numeric"></label>
+          <div class="spopt fdmeal" id="fdMeal"><button type="button" data-m="Завтрак">Завтрак</button><button type="button" data-m="Обед">Обед</button><button type="button" data-m="Ужин">Ужин</button><button type="button" data-m="Перекус">Перекус</button></div></div>
+        <button class="btn" type="submit">Распознать и посчитать</button>
+      </form>
+      <div class="fdsug" id="fdSug"></div>
+      <div class="fdres" id="fdRes" hidden></div>
+      <label class="fdphoto"><input type="file" accept="image/*" id="fdPh" hidden><svg class="ic" aria-hidden="true"><use href="#i-camera"/></svg> Распознать по фото</label>
+      <p class="mut psm" id="fdPhMsg">Сайт сам находит блюдо и считает калории. Сейчас — по встроенной таблице продуктов, в модуле Б — по базе продуктов из интернета.</p>
+    </div>
+    <div class="card pin fdday">
+      <div class="rdh"><h2>Дневник за <span id="fdDayT"></span></h2>
+        <div class="rnav"><button type="button" class="pdel" id="fdPrev" aria-label="Предыдущий день">‹</button><button type="button" class="pdel" id="fdNext" aria-label="Следующий день">›</button></div></div>
+      <div id="fdList"></div>
+    </div>
+    <div class="card pin fdwater">
+      <h2>Вода</h2>
+      <div class="fdcups" id="fdCups"></div>
+      <p class="mut" id="fdWaterT"></p>
+      <p class="mut psm">Нажми на стакан — 250 мл. За 8 стаканов в день +10 фитов.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ОТЧЁТЫ -->
+<section id="reports" class="page">
+  <h1>Отчёты<br><em>Что сделано</em></h1>
+  <div class="rwrap">
+    <div class="card rcat">
+      <h2>Упражнения</h2>
+      <label class="rsearch"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><input id="rQ" type="search" placeholder="Поиск по названию: жим, бег, планка…" autocomplete="off" aria-label="Поиск упражнения"></label>
+      <div class="rbr" id="rBr"></div>
+      <small class="mut" id="rCount"></small>
+      <div class="rlist" id="rList"></div>
+    </div>
+    <div class="rside">
+      <form class="card rform" id="rForm" autocomplete="off"></form>
+      <p class="rok" id="rOk" role="status" hidden></p>
+      <div class="card rdaycard">
+        <div class="rdh"><h2>Отчёт за <span id="rDayT"></span></h2>
+          <div class="rnav"><button type="button" class="pdel" id="rPrev" aria-label="Предыдущий день">‹</button><input type="date" id="rDate" aria-label="Дата отчёта"><button type="button" class="pdel" id="rNext" aria-label="Следующий день">›</button><button type="button" class="rtoday" id="rToday">Сегодня</button></div></div>
+        <p class="rsum" id="rSum" hidden></p>
+        <ul class="plist" id="rDay"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ -->
+<section id="privacy" class="page">
+  <h1>Политика<br><em>конфиденциальности</em></h1>
+  <div class="card legal"><p class="mut">Редакция от 22.10.2026</p><h2>1. Общие положения</h2><p>Настоящая Политика конфиденциальности (далее — «Политика») определяет, как сервис Drip Fit («Форма роста», далее — «Сервис», «мы») собирает, использует, хранит, передаёт и защищает информацию о пользователях. Используя Сервис, в том числе регистрируясь, входя в личный кабинет, загружая файлы или просто открывая сайт, вы подтверждаете, что ознакомились с Политикой и принимаете её условия в полном объёме. Если вы не согласны с Политикой, пожалуйста, прекратите использование Сервиса. Политика разработана в соответствии с Федеральным законом № 152-ФЗ «О персональных данных».</p><h2>2. Какие данные мы собираем</h2><p><b>При регистрации мы собираем:</b> адрес электронной почты (Email) и пароль (хранится только в хешированном виде).<br><b>Также вы можете передать сами:</b> логин, имя или псевдоним, аватар, данные о тренировках, привычках, задачах, достижениях, серии дней, расходах и целях, а также любые материалы, которые вы загружаете в Сервис.<br><b>Данные, которые собираются автоматически:</b> IP-адрес, тип устройства, модель и версия операционной системы, браузер, язык, часовой пояс и время устройства, разрешение экрана, дата и время посещений, просмотренные разделы, действия на страницах, источник перехода, сведения об ошибках.<br><b>Файлы cookie и аналогичные технологии:</b> идентификаторы сессии и настройки интерфейса (выбранные стили, темы, эффекты).</p><h2>3. Для чего мы используем данные</h2><p>Для регистрации и авторизации; ведения личного кабинета, календаря, статистики, рейтингов и начисления «фитов»; работы магазина, наград и достижений; персонализации интерфейса, рекомендаций и контента; обеспечения безопасности, предотвращения мошенничества и накруток; анализа использования и улучшения Сервиса; разработки новых функций и сервисов; связи с вами, включая сервисные и информационные сообщения; исполнения требований законодательства.</p><h2>4. Правовые основания</h2><p>Обработка осуществляется на основании вашего согласия, которое вы даёте при регистрации и использовании Сервиса, а также в случаях, когда обработка необходима для исполнения соглашения с вами, для защиты наших законных интересов или предусмотрена законом.</p><h2>5. Передача данных третьим лицам</h2><p>Мы вправе передавать данные: поставщикам хостинга, облачной инфраструктуры, аналитики и технической поддержки, действующим по нашему поручению; партнёрам и организаторам соревнований и программ, в рамках которых работает Сервис; правопреемникам в случае реорганизации или передачи проекта; государственным органам по их законному запросу. Публичные данные профиля (псевдоним, аватар, достижения, место в рейтинге) могут отображаться другим пользователям. Мы можем использовать обезличенные и агрегированные данные в статистических, исследовательских и иных целях без ограничений.</p><h2>6. Файлы пользователя</h2><p>Аудиофайлы, которые вы добавляете в раздел «Музыка», в текущей версии Сервиса обрабатываются только в вашем браузере и не отправляются на сервер. Вы гарантируете, что обладаете правами на загружаемые материалы. В последующих версиях загрузка на сервер возможна, об этом мы сообщим обновлением Политики.</p><h2>7. Хранение и защита</h2><p>Данные хранятся в течение срока использования вами Сервиса и далее столько, сколько необходимо для целей Политики или требуется законом. Мы применяем организационные и технические меры защиты, включая хеширование паролей и ограничение доступа. Ни одна система не может гарантировать абсолютную безопасность, поэтому вы используете Сервис на свой риск и самостоятельно отвечаете за сохранность своего пароля.</p><h2>8. Дети и несовершеннолетние</h2><p>Сервис ориентирован на молодёжь. Пользователи младше 14 лет могут пользоваться Сервисом только с согласия родителей или законных представителей, пользователи от 14 до 18 лет подтверждают, что ознакомили родителей с Политикой. Родитель вправе потребовать удаления данных ребёнка, написав нам.</p><h2>9. Ваши права</h2><p>Вы вправе запросить сведения о ваших данных, потребовать их уточнения, блокирования или удаления, отозвать согласие на обработку, а также обжаловать наши действия в Роскомнадзоре или в суде. Для этого напишите на vipersonalord@gmail.com. Отзыв согласия может сделать невозможным использование части функций, а удаление аккаунта влечёт безвозвратную потерю «фитов», покупок и достижений без компенсации.</p><h2>10. Ограничение ответственности</h2><p>Сервис предоставляется «как есть». Мы не несём ответственности за косвенные убытки, потерю данных и «фитов» вследствие технических сбоев, действий третьих лиц или нарушения вами правил безопасности. Тренировки и физические нагрузки вы выполняете на собственный риск; материалы Сервиса не заменяют консультацию врача.</p><h2>11. Изменение Политики</h2><p>Мы вправе изменять Политику в любое время без индивидуального уведомления. Актуальная редакция публикуется на этой странице и действует с момента публикации. Продолжение использования Сервиса означает согласие с новой редакцией.</p><h2>12. Контакты</h2><p>По любым вопросам, связанным с обработкой данных, пишите на vipersonalord@gmail.com .<br><b>Оператор персональных данных:</b> Махнев Лев Ильич, проект Drip Fit.<br><b>Адрес:</b> ул. Пушкина, д. Колотушкина, 42.</p></div>
+</section>
+</main>
+<footer>
+  <div class="band"></div>
+  <p class="row big2">Остались вопросы?<br>vipersonalord@gmail.com</p>
+  <p class="row"><button class="plink" data-go="privacy">Политика конфиденциальности</button></p>
+  <div class="row socs">
+    <a class="soc2" href="https://t.me/xwss_frax" target="_blank" rel="noopener noreferrer" aria-label="Telegram: xwss_frax">
+      <img class="sq logo" src="img/social/telegram.png" alt="Telegram" width="64" height="64"></a>
+    <button class="soc2" id="dsBtn" type="button" aria-label="Discord: xz4ys (нажми, чтобы скопировать ник)">
+      <img class="sq logo" src="img/social/discord.png" alt="Discord" width="64" height="64">
+      <b id="dsTxt"></b></button>
+    <a class="soc2" href="https://max.ru/u/f9LHodD0cOLBgkgKIihE3s-kzWenC_e1bZZ5r0GNE8G8woYsYSpQgjuqzvo" target="_blank" rel="noopener noreferrer" aria-label="Написать в MAX">
+      <img class="sq logo" src="img/social/max.png" alt="MAX" width="64" height="64"></a>
+  </div>
+  <p class="row sm">© Drip Fit. Все права защищены.</p>
+</footer>
+
+<div id="mbar" class="mbar"></div>
+<div class="mini" id="mini"><div class="c" id="miniC"></div><span id="miniN"></span><button id="miniP" aria-label="Пауза"><svg class="ic ic-pause" aria-hidden="true"><use href="#i-pause"/></svg></button></div>
+<script src="js/icons.js"></script>
+<script src="js/api.js"></script>
+<script>
+const themes={ach:'cabinet',video:'lib',privacy:'main'};
+mb.onclick=()=>{menu.classList.toggle('open');mb.innerHTML=menu.classList.contains('open')?ic('close')+' Закрыть':ic('menu')+' Меню'};
+function closeMenu(){menu.classList.remove('open');mb.innerHTML=ic('menu')+' Меню'}
+document.addEventListener('click',e=>{if(menu.classList.contains('open')&&!menu.contains(e.target)&&!mb.contains(e.target))closeMenu()},true);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
+document.querySelectorAll('.menu nav button').forEach((b,i)=>b.style.setProperty('--k',i));
+let user=null,pendingGo=null,mode='in';
+function go(id){
+  if((id==='cabinet'||id==='ach')&&!user){pendingGo=id;setMode('in');aNote.textContent='Войди или зарегистрируйся, чтобы открыть личный кабинет.';id='auth'}
+  document.body.dataset.theme=themes[id]||id;
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('on',p.id===id));
+  menu.classList.remove('open');mb.innerHTML=ic('menu')+' Меню';
+  scrollTo(0,0);
+}
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+// ===== страница «Награды»: все числа в одном месте (в модуле Б вынесем в конфиг на Python) =====
+const T=(h,r)=>'<div class="tw"><table class="tbl"><tr>'+h.map(x=>'<th>'+x+'</th>').join('')+'</tr>'+r.map(x=>'<tr>'+x.map((c,i)=>'<td'+(i==x.length-1?' class="fv"':'')+'>'+c+'</td>').join('')+'</tr>').join('')+'</table></div>';
+const S=(t,b,n)=>'<div class="card"><h2>'+t+'</h2>'+b+(n?'<p class="mut">'+n+'</p>':'')+'</div>';
+const H3=['Достижение','Условие','Фиты'];
+rl.innerHTML=
+S('Ежедневный заработок',T(['Действие','Фиты'],[['Отметить тренировку (до 3 в день)','+20'],['Отметить привычку (до 5 в день)','+5'],['Ежедневное задание (3 в день)','+10'],['Бонус за все 3 задания','+15']]),'Активный пользователь зарабатывает около 80 фитов в день.')+
+S('Множитель серии',T(['Серия подряд','Множитель'],[['3–6 дней','×1.1'],['7–13 дней','×1.25'],['14–29 дней','×1.5'],['30–89 дней','×2'],['90–179 дней','×2.5'],['180–364 дня','×3'],['365 дней и больше','×4']]),'Множитель применяется ко всему заработку за день. Пропуск дня сбрасывает серию, если нет заморозки.')+
+S('Старт',T(H3,[['Первый шаг','Создать первую тренировку','+20'],['Знакомство','Заполнить профиль (рост, вес, цель)','+30'],['Свой стиль','Выбрать аватар и рамку','+10']]))+
+S('Серия',T(H3,[['Разгон','3 дня подряд','+15'],['Огонёк','7 дней','+50'],['Привычка','14 дней','+120'],['Месяц силы','30 дней','+300'],['Железная воля','60 дней','+600'],['Легенда','100 дней','+1000'],['Год в строю '+ic('crown')+'','365 дней','+5000']]))+
+S('Количество тренировок',T(H3,[['Разминка','10 тренировок','+50'],['Втянулся','50 тренировок','+200'],['Сотня','100 тренировок','+500'],['Ветеран','250 тренировок','+1200']]))+
+S('Сила и выносливость',T(H3,[['Первый рекорд','Побить личный рекорд','+25'],['Рекордсмен','10 личных рекордов','+250'],['Тонна','Поднять суммарно 1 000 кг','+40'],['Десять тонн','10 000 кг','+200'],['Атлант','100 000 кг','+800'],['Первые километры','Пробежать 10 км суммарно','+40'],['Марафонец','42 км','+200'],['Дальнобой','100 км','+400'],['Кругосветка '+ic('crown')+'','500 км','+1500'],['Универсал','Прокачать все группы мышц за неделю','+100'],['Ранняя пташка','5 зарядок до 8:00','+60']]))+
+S('Рейтинг и друзья',T(H3,[['Друг в деле','Пригласить друга (ему +50)','+100'],['В десятке','Топ-10 недели','+150'],['На подиуме','Топ-3 недели','+300'],['Чемпион недели','1 место','+500'],['Победитель дуэли','Выиграть дуэль','+40']]))+
+S('Другие разделы',T(H3,[['Хозяин','10 домашних дел','+50'],['Хозяин дома','30 домашних дел','+150'],['Отличник','10 фокус-сессий','+60'],['Мастер фокуса','50 фокус-сессий','+300'],['Финансист','Выполнить план месяца','+150'],['Стабильный доход','3 месяца подряд','+500'],['Дневник питания','Вести рацион 7 дней','+70'],['Не сдавайся (скрытое)','Вернуться после перерыва от 7 дней и потренироваться 3 дня подряд','+50']]),'Награда за питание выдаётся за ведение дневника, а не за количество калорий.')+
+S('Магазин',T(['Покупка','Цена'],[['Заморозка серии (спасает 1 пропущенный день)','150'],['Рамка «Пламя»','200'],['Рамка «Лёд»','200'],['Тема профиля «Неон-ночь»','400'],['Тема профиля «Лава»','400'],['Тема профиля «Океан»','400'],['Тема профиля «Северное сияние»','400'],['Тема профиля «Золотой час»','400'],['Эффект «Конфетти»','250'],['Эффект «Искры»','300'],['Эффект «Неоновый след»','350'],['Музыка: Lofi-радио','300'],['Музыка для тренировок','300'],['Музыка «Утренний заряд»','300'],['Эпическая рамка «Квазар» '+ic('crown')+'','800']]),'Темы и рамки покупаются один раз и навсегда. Надевать и менять их можно в любой момент.')+
+S('Честная игра','<ul class="list"><li>Одна отметка привычки в сутки</li><li>День считается по времени сервера</li><li>Тренировка засчитывается, если в ней есть упражнение с результатом</li><li>Больше 3 тренировок в день идут в историю без фитов</li><li>Награду за достижение нужно забрать кнопкой</li></ul>');
+
+// ===== магазин (макет; покупки в модуле Б будут списываться в БД) =====
+let fits=1240,freezes=0;const own={},worn={frame:null,theme:null,fx:null,music:null};const fm=n=>n===Infinity?'∞':n.toLocaleString('ru-RU');
+const TH=(a,b)=>'<i class="sw" style="background:linear-gradient(135deg,'+a+','+b+')"></i>';
+const ITEMS=[
+ {id:'freeze',t:'use',n:'Заморозка серии',p:150,v:'<span class="ico"><svg class="ic ic-snow" aria-hidden="true"><use href="#i-snow"/></svg></span>'},
+ {id:'fire',t:'frame',n:'Рамка «Пламя»',p:200,v:'<i class="ring fire"></i>'},
+ {id:'ice',t:'frame',n:'Рамка «Лёд»',p:200,v:'<i class="ring ice"></i>'},
+ {id:'neon',t:'theme',n:'Тема «Неон-ночь»',p:400,v:TH('#120a33','#00e5ff')},
+ {id:'lava',t:'theme',n:'Тема «Лава»',p:400,v:TH('#2b0d02','#ff5a1f')},
+ {id:'ocean',t:'theme',n:'Тема «Океан»',p:400,v:TH('#082a45','#2bb3ff')},
+ {id:'aurora',t:'theme',n:'Тема «Северное сияние»',p:400,v:TH('#2a1a52','#5cffb0')},
+ {id:'gold',t:'theme',n:'Тема «Золотой час»',p:400,v:TH('#261a05','#ffb830')},
+ {id:'quasar',t:'frame',n:'Рамка «Квазар»',p:800,epic:1,v:'<i class="ring quasar"></i>'},
+ {id:'confetti',t:'fx',n:'Эффект «Конфетти»',p:250,v:'<span class="ico"><svg class="ic ic-party" aria-hidden="true"><use href="#i-party"/></svg></span>'},
+ {id:'sparks',t:'fx',n:'Эффект «Искры»',p:300,v:'<span class="ico"><svg class="ic ic-spark" aria-hidden="true"><use href="#i-spark"/></svg></span>'},
+ {id:'trail',t:'fx',n:'Эффект «Неоновый след»',p:350,v:'<span class="ico"><svg class="ic ic-quasar" aria-hidden="true"><use href="#i-quasar"/></svg></span>'},
+ {id:'lofi',t:'music',n:'Lofi-радио',p:300,src:'',v:'<span class="ico"><svg class="ic ic-phones" aria-hidden="true"><use href="#i-phones"/></svg></span>'},
+ {id:'train',t:'music',n:'Музыка для тренировок',p:300,src:'',v:'<span class="ico"><svg class="ic ic-dumbbell" aria-hidden="true"><use href="#i-dumbbell"/></svg></span>'},
+ {id:'morning',t:'music',n:'Утренний заряд',p:300,src:'',v:'<span class="ico"><svg class="ic ic-sunrise" aria-hidden="true"><use href="#i-sunrise"/></svg></span>'}];
+/* Музыка: в src указывается адрес встраиваемого плеера YouTube, например
+   'https://www.youtube.com/embed/ВИДЕО_ID' или 'https://www.youtube.com/embed/live_stream?channel=КАНАЛ_ID' */
+function label(x){
+  if(x.t==='use')return x.p+' '+ic('bolt')+(freezes?' · в запасе '+freezes:'');
+  if(!own[x.id])return x.p+' '+ic('bolt');
+  return worn[x.t]===x.id?(x.t==='music'?'Играет':'Надето'):(x.t==='music'?'Включить':'Надеть')}
+function drawShop(){
+  shelf.innerHTML=ITEMS.map(x=>'<div class="slot"><div class="cell'+(x.epic?' epic':'')+'">'+(x.epic?'<em>ЭПИК</em>':'')+x.v+'<small>'+x.n+'</small></div><button class="tag'+(own[x.id]&&worn[x.t]===x.id?' done':'')+'" data-id="'+x.id+'">'+label(x)+'</button></div>').join('');
+  drawInv();showFits()}
+function showFits(){fitsnum.textContent=fm(fits);document.querySelector('.chip').innerHTML=ic('bolt')+' '+fm(fits)+' фитов'}
+function apply(){
+  document.body.dataset.ptheme=worn.theme||'';
+  const a=document.querySelector('.avatar');a.className='avatar'+(worn.frame?' '+worn.frame:'');playMusic(ITEMS.find(i=>i.id===worn.music))}
+// ===== музыка (встроенный плеер YouTube) и спецэффекты =====
+function playMusic(x){
+  mbar.innerHTML='';mbar.classList.remove('on');
+  if(!x)return;mbar.classList.add('on');
+  if(!x.src){mbar.innerHTML='<p>'+x.n+'<br><small>Ссылка на источник пока не добавлена</small></p>';return}
+  mbar.innerHTML='<iframe src="'+x.src+(x.src.includes('?')?'&':'?')+'autoplay=1&playsinline=1" allow="autoplay; encrypted-media" title="'+x.n+'"></iframe><p>'+ic('note')+' '+x.n+'</p>'}
+const calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function burst(x,y,n,cols,sz){
+  for(let i=0;i<n;i++){const e=document.createElement('i');e.className='pt';
+    e.style.cssText='--x:'+x+'px;--y:'+y+'px;--dx:'+((Math.random()-.5)*260)+'px;--dy:'+(-Math.random()*160)+'px;background:'+cols[i%cols.length]+';width:'+sz+'px;height:'+sz+'px';
+    document.body.appendChild(e);setTimeout(()=>e.remove(),900)}}
+document.addEventListener('click',e=>{if(calm)return;
+  if(worn.fx==='sparks')burst(e.clientX,e.clientY,14,['#ffd54a','#ff8a00','#fff'],5);
+  if(worn.fx==='confetti'&&e.target.closest('.btn,.tag'))burst(e.clientX,e.clientY,36,['#ff4fd8','#7ad0ff','#ffd54a','#5cffb0','#fff'],8)});
+let lt=0;
+document.addEventListener('mousemove',e=>{if(calm||worn.fx!=='trail'||Date.now()-lt<30)return;lt=Date.now();
+  const d=document.createElement('i');d.className='tr';d.style.left=e.clientX+'px';d.style.top=e.clientY+'px';
+  document.body.appendChild(d);setTimeout(()=>d.remove(),600)});
+function equip(x){worn[x.t]=worn[x.t]===x.id?null:x.id;apply();drawShop()}
+function drawInv(){
+  const mine=ITEMS.filter(x=>x.t!=='use'&&own[x.id]);
+  const row=x=>'<div class="irow">'+x.v+'<span>'+x.n+'</span><button class="btn alt" data-id="'+x.id+'">'+(worn[x.t]===x.id?(x.t==='music'?'Выключить':'Снять'):(x.t==='music'?'Включить':'Надеть'))+'</button></div>';
+  const grp=(t,h)=>{const l=mine.filter(x=>x.t===t);return l.length?'<p class="mut">'+h+'</p>'+l.map(row).join(''):''};
+  inv.innerHTML=(mine.length?grp('frame','Рамки')+grp('theme','Темы профиля')+grp('fx','Спецэффекты')+grp('music','Музыка'):'<p class="mut">Пока ничего не куплено. Рамки и темы из магазина появятся здесь.</p><button class="btn" data-shop="1">В магазин</button>')+'<p class="mut">Заморозки серии: '+freezes+'</p>'}
+inv.onclick=e=>{const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.shop){document.querySelector('.menu [data-go=shop]').click();return}
+  equip(ITEMS.find(i=>i.id===b.dataset.id))};
+chg.onclick=()=>invcard.scrollIntoView({behavior:'smooth',block:'center'});
+shelf.onclick=e=>{const b=e.target.closest('button');if(!b)return;
+  const x=ITEMS.find(i=>i.id===b.dataset.id);
+  if(x.t!=='use'&&own[x.id]){equip(x);return}
+  if(fits<x.p){b.textContent='Не хватает';setTimeout(drawShop,1200);return}
+  fits-=x.p;if(x.t==='use')freezes++;else{own[x.id]=1;worn[x.t]=x.id;apply()}
+  drawShop()};
+drawShop();
+
+// ===== регистрация и вход (макет модуля А; проверка по базе данных будет в модуле Б) =====
+// Тестовый аккаунт с бесконечными фитами. С сервером (модуль Б) вход проверяется на сервере, пароль в БД — хешем.
+const VIP={login:'pyaterka',alias:'пятерка',hash:'cf72626598704885b2d64dbbe342600394f4392a035e920a99cf434ed6943040',name:'Пятерка'}; // пароль в коде не хранится — только его SHA-256-отпечаток; // войти можно и как «Пятерка», и как «pyaterka»
+const USERS={};
+function setMode(m){mode=m;afrm.dataset.mode=m;aIn.classList.toggle('on',m==='in');aUp.classList.toggle('on',m==='up');
+  aSub.textContent=m==='in'?'Войти':'Создать аккаунт';
+  [eLogin,eMail,ePass,ePass2,aMsg,aNote,eDisp].forEach(x=>x.textContent='');lgLbl.textContent=m==='in'?'Никнейм или почта':'Никнейм (латиница)';
+  fPass.autocomplete=m==='in'?'current-password':'new-password'}
+function resetShop(){Object.keys(own).forEach(k=>delete own[k]);worn.frame=worn.theme=worn.fx=worn.music=null;freezes=0;apply();drawShop()}
+function syncHead(){hIn.hidden=hUp.hidden=!!user;hOut.hidden=!user}
+function enter(u){
+  user=u;fits=u.vip?Infinity:100;resetShop();syncHead();
+  const rank=u.vip?'Легенда, ур. 99':'Новичок, ур. 1';user.rank=rank;
+  uname.textContent=u.name+' · '+rank;xpTxt.textContent=u.vip?'∞ опыта':'0 / 100 опыта';
+  document.querySelector('.prof .bar i').style.width=u.vip?'100%':'0%';
+  pfName.value=u.name;pfNick.textContent='@'+u.login;afrm.reset();pfMsg.textContent='';avErr.textContent='';setAvatar(u.avatar||null);
+  const t=pendingGo||'cabinet';pendingGo=null;go(t)}
+function leave(){user=null;pendingGo=null;fits=1240;resetShop();syncHead();setAvatar(null);go('main')}
+aIn.onclick=()=>setMode('in');aUp.onclick=()=>setMode('up');
+hIn.onclick=()=>{pendingGo=null;setMode('in');go('auth')};
+hUp.onclick=()=>{pendingGo=null;setMode('up');go('auth')};
+hOut.onclick=leave;
+eye.onclick=()=>{const h=fPass.type==='password';fPass.type=h?'text':'password';fPass2.type=fPass.type}
+const sha=async t=>{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')};
+afrm.onsubmit=async e=>{e.preventDefault();
+  const reg=mode==='up',lg=fLogin.value.trim(),mail=fMail.value.trim(),pw=fPass.value,pw2=fPass2.value;
+  [eLogin,eMail,ePass,ePass2,aMsg].forEach(x=>x.textContent='');let ok=true;
+  const disp=fDisp.value.trim();eDisp.textContent='';
+  if(!lg){eLogin.textContent=reg?'Придумай никнейм':'Введи никнейм или почту';ok=false}
+  else if(reg&&!/^[a-z0-9._-]+$/i.test(lg)){eLogin.textContent='Только латинские буквы, цифры, точка, _ и -';ok=false}
+  else if(reg&&(lg.length<3||lg.length>20)){eLogin.textContent='От 3 до 20 символов';ok=false}
+  if(reg&&disp.length>32){eDisp.textContent='Не длиннее 32 символов';ok=false}
+  if(reg&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail)){eMail.textContent='Проверь адрес почты';ok=false}
+  if(!pw){ePass.textContent='Введи пароль';ok=false}else if(reg&&pw.length<6){ePass.textContent='Минимум 6 символов';ok=false}
+  if(reg&&pw2!==pw){ePass2.textContent='Пароли не совпадают';ok=false}
+  if(!ok)return;
+  const key=lg.toLowerCase();
+  if(reg){if(key===VIP.login||USERS[key]){eLogin.textContent='Этот никнейм уже занят';return}
+    if(Object.values(USERS).some(x=>x.mail.toLowerCase()===mail.toLowerCase())){eMail.textContent='Эта почта уже зарегистрирована';return}
+    USERS[key]={login:key,name:disp||lg,pass:pw,mail};enter({login:key,name:disp||lg,vip:false});return}
+  const acc=(key===VIP.login||key===VIP.alias)?null:(USERS[key]||Object.values(USERS).find(x=>x.mail.toLowerCase()===key));
+  const u=(key===VIP.login||key===VIP.alias)?((await sha('dripfit:pyaterka:'+pw))===VIP.hash?{login:VIP.login,name:VIP.name,vip:true}:null):(acc&&acc.pass===pw?{login:acc.login,name:acc.name,vip:false}:null);
+  if(!u){aMsg.textContent='Неверный никнейм, почта или пароль';return}
+  enter(u)};
+pfSave.onclick=()=>{const n=pfName.value.trim();if(n.length>32){pfMsg.textContent='Не длиннее 32 символов';return}if(n&&user){user.name=n;uname.textContent=n+' · '+user.rank;if(USERS[user.login])USERS[user.login].name=n}pfMsg.textContent=n?'Сохранено':'Имя не может быть пустым'};
+
+// ===== загрузка аватарки (фото обрезается по центру до квадрата 256×256) =====
+function setAvatar(src){if(user)user.avatar=src;
+  document.querySelector('.avatar span').innerHTML=src?'<img alt="Аватар" src="'+src+'">':ic('smile');avDel.hidden=!src}
+avUp.onclick=()=>avFile.click();
+avDel.onclick=()=>{avErr.textContent='';setAvatar(null)};
+avFile.onchange=()=>{const f=avFile.files[0];avErr.textContent='';if(!f)return;
+  if(!/^image\/(png|jpeg|webp)$/.test(f.type)){avErr.textContent='Нужна картинка PNG, JPG или WEBP';avFile.value='';return}
+  if(f.size>5*1024*1024){avErr.textContent='Файл больше 5 МБ';avFile.value='';return}
+  const r=new FileReader();
+  r.onload=()=>{const im=new Image();
+    im.onload=()=>{const n=256,c=document.createElement('canvas');c.width=c.height=n;const m=Math.min(im.width,im.height);
+      c.getContext('2d').drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,n,n);setAvatar(c.toDataURL('image/jpeg',.88))};
+    im.onerror=()=>{avErr.textContent='Не удалось открыть файл'};im.src=r.result};
+  r.readAsDataURL(f);avFile.value=''};
+
+// ===== главная: «шумный» заголовок, летающие слова и уведомления; зажми кнопку, чтобы стало тихо =====
+const reduceMo=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let quiet=false,holding=false,holdRaf=0;
+const WORDS=['+20 фитов','Серия 12','Пропустил тренировку','Потом','Завтра начну','Зарядка?','Ещё подход','+5 фитов','Лень','Топ-10','Не сегодня','Дожми'];
+const NOTES=[['Drip Fit','Серия горит! Не прерывай'],['Календарь','Тренировка через 15 минут'],['Друг','Лиза обогнала тебя в рейтинге'],['Drip Fit','+20 фитов за зарядку'],['Заметка','Купить воду для зала']];
+const rnd2=(a,b)=>a+Math.random()*(b-a);
+const heroOn=()=>!document.hidden&&document.getElementById('main').classList.contains('on');
+function jitter(){hero.querySelectorAll('.ln').forEach(l=>{
+  const v=quiet?['0px','0px','0deg','0deg']:[rnd2(-12,12).toFixed(1)+'px',rnd2(-5,5).toFixed(1)+'px',rnd2(-6,6).toFixed(1)+'deg',rnd2(-1.2,1.2).toFixed(2)+'deg'];
+  l.style.setProperty('--jx',v[0]);l.style.setProperty('--jy',v[1]);l.style.setProperty('--sk',v[2]);l.style.setProperty('--rt',v[3])})}
+function spawnWord(){if(quiet||!heroOn()||hero.querySelectorAll('.fw').length>=(hero.clientWidth<600?4:7))return;
+  const W=hero.clientWidth,H=hero.clientHeight,e=document.createElement('span'),L=Math.random()<.5,y=rnd2(.05,.9)*H;
+  e.className='fw'+(Math.random()<.3?' r':'');e.textContent=WORDS[Math.floor(Math.random()*WORDS.length)];
+  e.style.cssText='--x0:'+(L?-260:W+20)+'px;--y0:'+y+'px;--x1:'+(L?W+20:-260)+'px;--y1:'+(y+rnd2(-.25,.25)*H)+'px;--r:'+rnd2(-12,12).toFixed(1)+'deg;--d:'+rnd2(7,12).toFixed(1)+'s';
+  e.onanimationend=()=>e.remove();(document.getElementById('fwbox')||hero).appendChild(e)}
+function spawnNote(){if(quiet||!heroOn()||hero.querySelectorAll('.nt').length>=(hero.clientWidth<600?1:2))return;
+  const W=hero.clientWidth,H=hero.clientHeight,used=[...hero.querySelectorAll('.nt')].map(x=>x.textContent),pool=NOTES.filter(x=>!used.some(u=>u.includes(x[1]))),n=(pool.length?pool:NOTES)[Math.floor(Math.random()*(pool.length||NOTES.length))],e=document.createElement('div');
+  e.className='nt';e.innerHTML='<b>'+n[0]+'</b>'+n[1];
+  e.style.cssText='left:'+rnd2(.04,Math.max(.05,(W-270)/W)).toFixed(3)*W+'px;top:'+rnd2(.08,.72)*H+'px;--r:'+rnd2(-4,4).toFixed(1)+'deg;--life:4s';
+  (document.getElementById('fwbox')||hero).appendChild(e);setTimeout(()=>e.remove(),4600)}
+function setQuiet(v){quiet=v;document.body.classList.toggle('quiet',v);hero.classList.toggle('calm',v);calmMsg.hidden=!v;
+  if(v)hero.querySelectorAll('.fw,.nt').forEach(e=>e.remove());
+  hold.firstChild.textContent=v?'Вернуть шум':'Зажми. Соберись.';holdNote.hidden=v;stopHold();jitter()}
+function startHold(){if(holding)return;if(quiet){setQuiet(false);return}
+  holding=true;const t0=performance.now();
+  (function step(){if(!holding)return;const p=Math.min(1,(performance.now()-t0)/2500);hold.style.setProperty('--p',p*100+'%');
+    if(p>=1){setQuiet(true);return}holdRaf=requestAnimationFrame(step)})()}
+function stopHold(){holding=false;cancelAnimationFrame(holdRaf);hold.style.setProperty('--p','0%')}
+hold.addEventListener('pointerdown',e=>{e.preventDefault();startHold()});
+['pointerup','pointerleave','pointercancel'].forEach(t=>hold.addEventListener(t,stopHold));
+// ===== слово «ФИТЫ»: волна, блик, искры, а по клику фиты летят в баланс (только визуально, баланс не меняется) =====
+fitsWord.innerHTML=[...fitsWord.textContent].map((c,i)=>'<i style="--i:'+i+'">'+c+'</i>').join('');
+function spark(){if(!heroOn())return;const l=fitsWord.querySelectorAll('i')[Math.floor(Math.random()*4)],e=document.createElement('span');
+  e.className='spk';e.innerHTML=ic('bolt');e.style.left=l.offsetLeft+l.offsetWidth/2+'px';e.style.setProperty('--dx',rnd2(-30,30)+'px');
+  fitsWord.appendChild(e);setTimeout(()=>e.remove(),1300)}
+if(!reduceMo)setInterval(spark,1100);
+function coins(){
+  const chipEl=[document.querySelector('.chip')].find(x=>x&&x.offsetParent),t=chipEl.getBoundingClientRect(),w=fitsWord.getBoundingClientRect();
+  const tx=t.left+t.width/2-14,ty=t.top+t.height/2-14;
+  for(let i=0;i<12;i++){const c=document.createElement('span');c.className='coin';c.innerHTML=ic('bolt');document.body.appendChild(c);
+    const x0=w.left+rnd2(.1,.9)*w.width-14,y0=w.top+w.height/2-14,mx=x0+rnd2(-130,130),my=y0-rnd2(90,200);
+    const a=c.animate([{transform:'translate('+x0+'px,'+y0+'px) scale(.3)',opacity:0},
+      {transform:'translate('+mx+'px,'+my+'px) scale(1.1)',opacity:1,offset:.42},
+      {transform:'translate('+tx+'px,'+ty+'px) scale(.55)',opacity:1}],{duration:1150,delay:i*65,easing:'cubic-bezier(.4,0,.3,1)',fill:'both'});
+    a.onfinish=()=>{c.remove();chipEl.classList.remove('bump');void chipEl.offsetWidth;chipEl.classList.add('bump')}}}
+document.addEventListener('keydown',e=>{if((e.key!=='Enter')||e.repeat||!heroOn())return;
+  const t=document.activeElement.tagName;if(['INPUT','TEXTAREA','SELECT'].includes(t)||(t==='BUTTON'&&document.activeElement!==hold))return;
+  e.preventDefault();startHold()});
+document.addEventListener('keyup',e=>{if(e.key==='Enter')stopHold()});
+if(reduceMo){setQuiet(true);hold.hidden=true;holdNote.hidden=true;calmMsg.hidden=true}
+else{setInterval(()=>{if(heroOn())jitter()},1100);setInterval(spawnWord,900);setInterval(spawnNote,2600);jitter();setTimeout(spawnNote,600)}
+
+// ===== календарь и история недель (демо-данные; в модуле Б будут браться из БД) =====
+const D=864e5,today=new Date();
+let sel=new Date(),view=new Date(sel.getFullYear(),sel.getMonth(),1);
+const same=(a,b)=>a.toDateString()===b.toDateString();
+const mon=d=>{const x=new Date(d);x.setHours(0,0,0,0);x.setDate(x.getDate()-(x.getDay()+6)%7);return x};
+const rnd=n=>{const x=Math.sin(n)*1e4;return x-Math.floor(x)};
+const fmt=(d,o)=>d.toLocaleDateString('ru-RU',o);
+function renderCal(){
+  const y=view.getFullYear(),m=view.getMonth(),first=(new Date(y,m,1).getDay()+6)%7,n=new Date(y,m+1,0).getDate();
+  let h='<div class="calhead"><button data-m="-1">‹</button><b>'+fmt(view,{month:'long',year:'numeric'})+'</b><button data-m="1">›</button></div><div class="days">';
+  for(let i=0;i<first;i++)h+='<i></i>';
+  for(let i=1;i<=n;i++){const t=new Date(y,m,i);h+='<button class="'+(same(t,today)?'today ':'')+(same(t,sel)?'sel':'')+'" data-d="'+i+'">'+i+'</button>'}
+  cal.innerHTML=h+'</div><p class="mut">Выбрано: '+fmt(sel,{day:'numeric',month:'long',year:'numeric'})+'</p>';
+}
+function renderWeek(){
+  const w=mon(sel),k=Math.round(w/D/7),e=new Date(w.getTime()+6*D),f=d=>fmt(d,{day:'numeric',month:'short'});
+  wl.textContent=f(w)+' – '+f(e);
+  nw.disabled=w>=mon(today);
+  if(window.dfWeekHook){window.dfWeekHook(w);return} // реальные данные из «Отчётов» (js/reports.js)
+  document.querySelectorAll('.cols i').forEach((c,i)=>c.style.height=(15+rnd(k*7+i)*85)+'%');
+  const a=Math.round(25+rnd(k+3)*35),b=Math.round((100-a)*(.3+rnd(k+5)*.4)),c=100-a-b;
+  dn.style.background='conic-gradient(var(--acc) 0 '+a+'%,var(--d2,#fff) '+a+'% '+(a+b)+'%,var(--d3,#555) '+(a+b)+'% 100%)';
+  lg.textContent='Грудь '+a+'% · Ноги '+b+'% · Спина '+c+'%';
+  nw.disabled=w>=mon(today);
+}
+function sync(){view=new Date(sel.getFullYear(),sel.getMonth(),1);renderCal();renderWeek()}
+cal.onclick=e=>{const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.m){view=new Date(view.getFullYear(),view.getMonth()+ +b.dataset.m,1);renderCal()}
+  else if(b.dataset.d){sel=new Date(view.getFullYear(),view.getMonth(),+b.dataset.d);sync()}};
+pw.onclick=()=>{sel=new Date(sel.getTime()-7*D);sync()};
+nw.onclick=()=>{sel=new Date(sel.getTime()+7*D);sync()};
+sync();
+window.dfWeekRefresh=()=>renderWeek();
+</script>
+<script src="js/library.js"></script>
+<script src="js/home.js"></script>
+<script src="js/cursors.js"></script>
+<script src="js/spotlight.js"></script>
+<script src="js/shell.js"></script>
+<script src="js/howto.js"></script>
+<script src="js/reports.js"></script>
+<script src="js/friends.js"></script>
+<script src="js/xp.js"></script>
+<script src="js/sport.js"></script>
+<script src="js/workouts.js"></script>
+<script src="js/rank.js"></script>
+<script src="js/food.js"></script>
+<script src="js/ach.js"></script>
+<script src="js/search.js"></script>
+<script src="js/pins.js"></script>
+<script>
+dsBtn.onclick=()=>{const t=dsTxt,old='',nick='xz4ys';
+  (navigator.clipboard?navigator.clipboard.writeText(nick):Promise.reject()).catch(()=>{}).finally(()=>{t.textContent='Ник скопирован!';setTimeout(()=>t.textContent=old,1600)})};
+</script>
+</body>
+</html>

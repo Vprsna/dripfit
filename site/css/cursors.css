@@ -1,0 +1,7 @@
+/* cursors.css — назначение курсоров (сами картинки строит js/cursors.js под цвет под-сайта) */
+html,body{cursor:var(--c-def,auto)}
+body :is(a,button,[data-go],[role=button],label,select,summary,.tc,.tn,.chp,.vc,.hubc,.plink,input[type=range],input[type=file],input[type=checkbox],input[type=radio]){cursor:var(--c-ptr,pointer)}
+body :is(input:not([type=range],[type=file],[type=checkbox],[type=radio],[type=submit],[type=button]),textarea){cursor:var(--c-txt,text)}
+body :is(button,input,select):disabled,body .btn:disabled{cursor:var(--c-no,not-allowed)}
+body.wait,body.wait *{cursor:var(--c-wait,wait)!important}
+.logo{cursor:var(--c-ptr,pointer)}

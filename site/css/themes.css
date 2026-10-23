@@ -1,0 +1,29 @@
+/* themes.css — палитра каждого подсайта (значение body[data-theme]).
+   acc — акцент, on — цвет текста на акценте, pill — серая «таблетка» (кнопка меню), -h — вариант при наведении */
+/* Главная и политика: холодный светло-серый + красный */
+body[data-theme=main]{--bg:#c3c9d3;--ink:#141414;--card:#f4f6f9;--acc:#d32d2d;--acc-h:#e85a5a;--on:#fff;--pill:#d5dae2;--pill-h:#c6ccd6;--tex:#00000012;--bd:#0000001a;--bd2:#00000030;--track:#d3d8e0;--d2:#141414;--d3:#b9bfca;--spa:20%}
+/* Спорт: «Торнадо» — чёрный + красный */
+body[data-theme=sport]{--bg:#111113;--card:#1c1c1f;--acc:#d32d2d;--acc-h:#e85a5a;--on:#fff;--pill:#222;--pill-h:#3b3b3b}
+/* Учёба: тёмно-синий + оранжевый */
+body[data-theme=study]{--bg:#0f1b28;--card:#16293e;--acc:#ff8a00;--acc-h:#ffa94d;--on:#000;--pill:#12304f;--pill-h:#1d4a78}
+/* Дом: тёмно-зелёный, при наведении приглушённый салатовый */
+body[data-theme=home]{--bg:#111d17;--card:#192d22;--acc:#2ecc71;--acc-h:#9bd7ae;--on:#000;--pill:#17301f;--pill-h:#2a4d38}
+/* Деньги: чёрный + золото */
+body[data-theme=money]{--bg:#141410;--card:#202016;--acc:#d4af37;--acc-h:#e6c966;--on:#000;--pill:#26240f;--pill-h:#3d3a1c}
+/* Кабинет: фиолетовый + чёрный */
+body[data-theme=cabinet]{--bg:#14101c;--card:#20192e;--acc:#9b3dff;--acc-h:#b46bff;--on:#fff;--pill:#261a40;--pill-h:#3d2a6b}
+/* Награды: тёмный + бирюзовый */
+body[data-theme=rules]{--bg:#0f1d1c;--card:#162f2d;--acc:#19d3c5;--acc-h:#6fe3da;--on:#000;--pill:#123a37;--pill-h:#1f5c57}
+/* Магазин: тёмно-коричневый + красный */
+body[data-theme=shop]{--bg:#23130e;--card:#341d12;--acc:#d32d2d;--acc-h:#e85a5a;--on:#fff;--pill:#3a1c0e;--pill-h:#5a2e18}
+/* Вход и регистрация: графит + лайм */
+body[data-theme=auth]{--bg:#131411;--card:#1e2018;--acc:#b6f500;--acc-h:#d3f56a;--on:#000;--pill:#23261a;--pill-h:#3c4128}
+/* Библиотека: тёмно-синий + голубой; Музыка: фиолетово-чёрный + жёлтый (фон переливается) */
+body[data-theme=lib]{--bg:#10141d;--card:#182031;--acc:#19b8ff;--acc-h:#6fd2ff;--on:#000;--pill:#15223a;--pill-h:#223a63}
+body[data-theme=music]{--bg:#100c16;--card:#1e142d;--acc:#ffd21f;--acc-h:#ffe066;--on:#000;--pill:#2a1744;--pill-h:#41256a}
+
+/* Отчёты: графит + малиновый */
+body[data-theme=reports]{--bg:#17121a;--card:#241c29;--acc:#ff3d9a;--acc-h:#ff7ab8;--on:#fff;--pill:#2c1f33;--pill-h:#45304f}
+
+/* Питание: глубокий морской + коралловый */
+body[data-theme=food]{--bg:#0e1617;--card:#172325;--acc:#ff7a59;--acc-h:#ff9f85;--on:#1a0d08;--pill:#1d2d30;--pill-h:#2a4246;--tex:#ffffff0c;--bd:#ffffff1a;--bd2:#ffffff30;--ink:#f1f5f4}

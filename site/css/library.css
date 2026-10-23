@@ -1,0 +1,157 @@
+/* library.css — раздел «Библиотека»: хаб, «Музыка» (фон-переливашка как в Яндекс Музыке) и «Упражнения» (в духе YouTube) */
+.rng{padding:0;border:0;background:none;margin:0;accent-color:var(--acc);height:22px;cursor:var(--c-ptr,pointer)}
+.lbtn{width:auto;display:inline-block;margin:0;padding:12px 22px}
+.hub{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.hubc{position:relative;overflow:hidden;min-height:260px;border-radius:32px;padding:28px;text-align:left;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;transition:transform .25s}
+.hubc:hover{transform:translateY(-4px) scale(1.01)}
+.hubc h2{font-size:46px;margin:0 0 6px;position:relative}.hubc p{position:relative;opacity:.85;margin:0}
+.hubc.m{background:radial-gradient(circle at 25% 30%,#ffd21f,transparent 45%),radial-gradient(circle at 80% 20%,#c11fd0,transparent 50%),radial-gradient(circle at 60% 90%,#2b6bff,transparent 55%),#140a22}
+.hubc.v{background:linear-gradient(135deg,#1c1d24,#0d0e12)}
+.hubc.v::before{content:'▶';position:absolute;right:26px;top:22px;display:grid;place-items:center;width:96px;height:68px;border-radius:20px;background:#ff0033;font-size:30px}
+.hubc.m::before{content:'♪';position:absolute;right:30px;top:12px;font-size:110px;opacity:.9;animation:bob 3s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-10px) rotate(6deg)}}
+.back{margin-bottom:14px;padding:10px 20px}
+/* ---- музыка ---- */
+.aurora{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;animation:rainbow 36s linear infinite}
+.aurora i{position:absolute;width:62vmax;height:62vmax;border-radius:42% 58% 63% 37%/45% 35% 65% 55%;filter:blur(80px);opacity:.85;will-change:transform}
+.aurora i:nth-child(1){left:-18vmax;top:-22vmax;background:hsl(52 100% 50%);animation:bl1 17s ease-in-out infinite alternate}
+.aurora i:nth-child(2){right:-22vmax;top:-12vmax;background:hsl(300 90% 50%);animation:bl2 21s ease-in-out infinite alternate}
+.aurora i:nth-child(3){left:8vmax;bottom:-36vmax;background:hsl(215 95% 55%);animation:bl3 25s ease-in-out infinite alternate}
+.aurora i:nth-child(4){right:-10vmax;bottom:-30vmax;background:hsl(140 85% 45%);animation:bl1 23s ease-in-out infinite alternate-reverse}
+.aurora i:nth-child(5){left:-26vmax;bottom:-8vmax;background:hsl(0 90% 55%);animation:bl2 27s ease-in-out infinite alternate-reverse}
+.aurora::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,transparent 25%,#05020ad9 100%)}
+@keyframes rainbow{to{filter:hue-rotate(360deg)}}
+@keyframes bl1{to{transform:translate(35vmax,22vmax) rotate(120deg);border-radius:60% 40% 35% 65%/55% 60% 40% 45%}}
+@keyframes bl2{to{transform:translate(-30vmax,30vmax) rotate(-90deg);border-radius:35% 65% 55% 45%/40% 35% 65% 60%}}
+@keyframes bl3{to{transform:translate(30vmax,-26vmax) rotate(80deg);border-radius:55% 45% 40% 60%/60% 50% 50% 40%}}
+body.quiet .aurora{animation-duration:120s}
+@media(prefers-reduced-motion:reduce){.aurora,.aurora i{animation:none}}
+#music h1{text-shadow:0 4px 40px #0008}
+.glass{background:#0b0612b0;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid #ffffff22;border-radius:28px;padding:22px;margin-bottom:18px;color:#fff;text-align:left}
+.np{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.cover{flex:none;width:120px;height:120px;border-radius:24px;display:grid;place-items:center;font-size:44px;background:linear-gradient(135deg,var(--c1,#ffc400),var(--c2,#c11fd0));box-shadow:0 10px 40px #0008}
+.np .info{flex:1;min-width:220px}.np .info b{display:block;font-size:26px;word-break:break-word}.np .info small{opacity:.7}
+.ctl{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.ctl button{width:46px;height:46px;border-radius:50%;background:#ffffff1f;color:#fff;font-size:18px;transition:.2s}
+.ctl button:hover{background:#ffffff40}.ctl button.on{background:var(--acc);color:#000}
+.ctl button.play{width:60px;height:60px;background:#fff;color:#000;font-size:24px}
+.seek{display:flex;gap:10px;align-items:center;margin-top:10px;font-size:14px}.seek .rng{flex:1}
+.vol{width:110px}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.chp{padding:10px 18px;border-radius:999px;background:#ffffff1c;color:#fff;font-weight:700;transition:.2s}
+.chp:hover{background:#ffffff38}.chp.on{background:var(--acc);color:#000}
+.newpl{display:flex;gap:10px;margin-bottom:14px}.newpl input{margin:0;flex:1;background:#00000066;color:#fff}
+.drop{border:2px dashed #ffffff55;border-radius:24px;padding:26px;text-align:center;margin-bottom:16px;transition:.2s}
+.drop.over{border-color:var(--acc);background:#ffffff14}
+.trk{display:flex;align-items:center;gap:12px;padding:8px;border-radius:16px;transition:.15s}
+.trk:hover{background:#ffffff14}.trk.cur{background:#ffffff22}
+.trk .tc{flex:none;width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:18px;color:#fff;cursor:var(--c-ptr,pointer)}
+.trk .tn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:var(--c-ptr,pointer);font-weight:600}
+.trk .td{opacity:.65;font-size:14px}
+.trk select{width:auto;margin:0;padding:8px 10px;font-size:14px;background:#00000066;color:#fff;border-radius:999px}
+.trk .x{width:36px;height:36px;border-radius:50%;background:#ffffff1a;color:#fff}.trk .x:hover{background:#d32d2d}
+.empty{text-align:center;opacity:.75;padding:26px 0}
+.mini{position:fixed;right:14px;bottom:14px;z-index:35;display:none;align-items:center;gap:10px;max-width:280px;padding:8px 14px 8px 8px;border-radius:999px;background:#000d;border:1px solid #ffffff30;color:#fff;font-size:14px}
+.mini.on{display:flex}
+.mini .c{width:34px;height:34px;border-radius:50%;flex:none;background:linear-gradient(135deg,var(--c1,#ffc400),var(--c2,#c11fd0));cursor:var(--c-ptr,pointer)}
+.mini span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:var(--c-ptr,pointer)}
+.mini button{width:34px;height:34px;border-radius:50%;background:#fff;color:#000;flex:none}
+/* ---- упражнения (в духе YouTube) ---- */
+.ysearch{display:flex;gap:0;max-width:720px;margin:0 auto 14px}
+.ysearch input{margin:0;border-radius:999px 0 0 999px;flex:1}
+.ysearch button{flex:none;width:72px;border-radius:0 999px 999px 0;background:var(--pill);border:2px solid var(--bd,#ffffff22);border-left:0}
+.ycats{display:flex;gap:10px;overflow-x:auto;padding-bottom:10px;margin-bottom:12px;scrollbar-width:none}
+.ycats button{flex:none;padding:9px 16px;border-radius:12px;background:var(--pill);font-weight:700;transition:.2s}
+.ycats button:hover{background:var(--pill-h)}.ycats button.on{background:#f1f1f1;color:#0f0f0f}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px 16px}
+.vc{text-align:left;color:inherit}.vc .th{position:relative;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#222}
+.vc .th img{width:100%;height:100%;object-fit:cover;display:block}
+.vc .du{position:absolute;right:8px;bottom:8px;background:#000c;color:#fff;font-size:13px;font-weight:700;padding:2px 6px;border-radius:6px}
+.vc .mt{display:flex;gap:12px;margin-top:10px}.vc .ch{flex:none;width:38px;height:38px;border-radius:50%;background:var(--acc);color:var(--on);display:grid;place-items:center;font-weight:800}
+.vc b{display:block;font-size:16px;line-height:1.25}.vc small{opacity:.65}
+.sk .th,.sk .l{background:linear-gradient(90deg,#ffffff0f 25%,#ffffff22 50%,#ffffff0f 75%) 0 0/200% 100%;animation:sh 1.6s linear infinite}
+.sk .l{height:14px;border-radius:7px;margin:4px 0}.sk .ch{background:#ffffff14}
+@keyframes sh{to{background-position:-200% 0}}
+.soon{text-align:center;margin:0 auto 22px;max-width:560px}
+.watch .pl{aspect-ratio:16/9;max-width:980px;border-radius:20px;overflow:hidden;background:#000}.watch iframe{width:100%;height:100%;border:0}
+.watch h2{font-size:30px;margin:14px 0 6px;text-transform:none;font-family:Manrope,sans-serif;font-weight:800;line-height:1.2}
+@media(max-width:620px){.np{gap:14px}.cover{width:90px;height:90px}.vol{width:80px}.trk select{max-width:110px}}
+
+/* юридические страницы */
+.plink{padding:0;color:inherit;text-decoration:underline;text-underline-offset:4px;font:inherit;background:none;cursor:var(--c-ptr,pointer)}.plink:hover{color:var(--acc)}
+.legal{max-width:900px}.legal h2{margin-top:22px}.legal p{line-height:1.6;margin:0 0 8px}
+
+/* соцсети в футере */
+.socs{display:flex;gap:28px;flex-wrap:wrap;align-items:center}
+.soc2{display:flex;align-items:center;gap:14px;color:#fff;font:inherit;background:none;text-decoration:none;text-align:left}
+.soc2 b{font-weight:700;font-size:19px}
+.soc2 .sq{transition:transform .2s,background .2s}
+.soc2:hover .sq{transform:translateY(-3px) rotate(-4deg);background:var(--acc-h)}
+.soc2 .sq.logo{background:none;object-fit:contain;border-radius:0;width:64px;height:64px;display:block}
+.soc2:hover .sq.logo{background:none}
+.soc2 .sq.dsq{background:#5865f2;color:#fff;border-radius:20px}.soc2:hover .sq.dsq{background:#6d79ff}
+.soc2:hover .sq.logo{transform:translateY(-3px) rotate(-4deg)}
+#privacy h1{font-size:clamp(2.2rem,9vw,4.6rem);overflow-wrap:anywhere}
+
+/* ---- сцена плеера в духе «Моей волны» ---- */
+.stage{display:flex;flex-direction:column;align-items:center;gap:20px;padding:26px 0 8px;color:#fff}
+.stage .cover{width:112px;height:112px;border-radius:18px;font-size:40px}
+.stage .sbar{display:flex;align-items:center;gap:10px;width:min(780px,100%)}
+.rb{flex:none;width:48px;height:48px;border-radius:50%;background:#ffffff26;color:#fff;font-size:18px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:.2s}
+.rb:hover{background:#ffffff4d}.rb.on{background:var(--acc);color:#000}
+.pillbar{position:relative;flex:1;min-width:0;height:64px;border-radius:999px;background:#ffffff2e;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow:hidden;display:grid;place-items:center;padding:0 22px}
+.pillbar .fill{position:absolute;left:0;top:0;bottom:0;width:0;background:#ffffff38;transition:width .25s linear}
+.pillbar b{position:relative;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:800 19px Manrope,sans-serif;text-transform:uppercase;letter-spacing:.01em}
+.tm{display:flex;align-items:center;gap:8px;font-size:14px;opacity:.9}
+.tm .vol{width:110px;margin-left:14px}
+.ctl2{display:flex;align-items:center;gap:26px}
+.ctl2 .sk{width:48px;height:48px;border-radius:50%;background:none;color:#ffffffb3;font-size:22px;transition:.2s}.ctl2 .sk:hover{color:#fff;transform:scale(1.12)}
+.ctl2 .play{width:78px;height:78px;border-radius:50%;background:#ffff00;color:#000;font-size:30px;box-shadow:0 10px 40px #0007;transition:transform .2s}
+.ctl2 .play:hover{transform:scale(1.07)}
+@media(max-width:620px){.stage .sbar{gap:6px}.rb{width:40px;height:40px;font-size:16px}.pillbar{height:54px;padding:0 14px}.pillbar b{font-size:15px}.tm .vol{width:80px}}
+
+/* SVG-иконки (js/icons.js) */
+.ic{width:1em;height:1em;vertical-align:-.14em;flex:none;display:inline-block}
+.rb .ic,.ctl2 .ic,.ysearch .ic,.ico .ic{vertical-align:middle}
+.rb .ic{width:20px;height:20px}.ctl2 .sk .ic{width:24px;height:24px}.ctl2 .play .ic{width:32px;height:32px;margin-left:3px}
+.ic-bolt{color:#ffb400}.ic-fire{color:#ff6a1a}.ic-crown{color:#ffc933}
+.ic-snow{color:#7ad0ff}.ic-party{color:#ff4fd8}.ic-spark{color:#ffd54a}.ic-quasar{color:#b46bff}.ic-phones{color:#19b8ff}.ic-dumbbell{color:#ff6b6b}.ic-sunrise{color:#ffb400}
+.chip .ic-bolt,.hb .ic-bolt{color:var(--acc)}
+.hubc.m::before{content:'';width:100px;height:100px;font-size:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18V5l11-2v13'/%3E%3Ccircle cx='6.5' cy='18' r='2.5'/%3E%3Ccircle cx='17.5' cy='16' r='2.5'/%3E%3C/svg%3E") center/contain no-repeat;top:18px}
+.hubc.v::before{content:'';font-size:0;background:#ff0033 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 6v12l10-6z'/%3E%3C/svg%3E") center/40px no-repeat}
+
+/* «Упражнения»: красно-белая бегущая анимация (текст остаётся читаемым за счёт тёмного низа) */
+.hubc.v{background:#8a0a1c}
+.hubc.v::after{content:'';position:absolute;inset:0;z-index:0;
+  background:
+   linear-gradient(180deg,#0000 38%,#000b 100%),
+   radial-gradient(circle at 22% 28%,#fff 0,#fff0 38%),
+   radial-gradient(circle at 78% 22%,#ff2d4d 0,#ff2d4d00 42%),
+   radial-gradient(circle at 62% 88%,#ffd9de 0,#ffd9de00 40%),
+   radial-gradient(circle at 12% 92%,#e0102c 0,#e0102c00 45%);
+  background-size:100% 100%,170% 170%,170% 170%,170% 170%,170% 170%;
+  background-position:0 0,0 0,100% 0,100% 100%,0 100%;
+  animation:vflow 9s ease-in-out infinite alternate}
+@keyframes vflow{
+  0%{background-position:0 0,0 0,100% 0,100% 100%,0 100%}
+  50%{background-position:0 0,70% 60%,20% 80%,10% 10%,90% 30%}
+  100%{background-position:0 0,100% 100%,0 100%,0 0,100% 0}}
+.hubc.v h2,.hubc.v p{z-index:2;text-shadow:0 2px 14px #000a}
+.hubc.v::before{z-index:2;background:#ff0033 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 6v12l10-6z'/%3E%3C/svg%3E") center/40px no-repeat;box-shadow:0 0 0 3px #fff,0 8px 26px #0006}
+@media(prefers-reduced-motion:reduce){.hubc.v::after{animation:none}}
+#music h1{white-space:nowrap;font-size:clamp(2.4rem,12vw,6.5rem)}
+#music h1{text-align:center}
+.ycats{justify-content:center;justify-content:safe center}
+
+.vc .th .pl{display:none}.vc .th.nf{background:var(--g)}.vc .th.nf .pl{display:grid;place-items:center;position:absolute;inset:0;color:#fff}.vc .th.nf .pl .ic{width:44px;height:44px}
+.vc,.vc:hover,.vc:focus{background:none!important;border:0!important;box-shadow:none!important;padding:0!important;color:#fff}.vc small{color:#fff}
+
+a.vc{display:block;text-decoration:none;cursor:var(--c-ptr,pointer)}
+
+.vc .sh{position:absolute;left:8px;top:8px;background:#ff1f3d;color:#fff;font-size:12px;font-weight:800;padding:2px 7px;border-radius:6px}
+
+/* проплывающие слова и заметки: прозрачные и под заголовком, чтобы не мешали читать */
+.fw{opacity:.22!important;z-index:1!important}
+.fw.r{opacity:.3!important}
+.nt{opacity:.5;z-index:2!important;pointer-events:none;background:color-mix(in srgb,var(--card) 70%,transparent)!important;color:var(--ink,#141414)!important;box-shadow:none!important;backdrop-filter:blur(2px)}
+.chaos,.hero .lead{z-index:3}
