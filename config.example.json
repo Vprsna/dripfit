@@ -2,5 +2,6 @@
   "port": 8000,
   "host": "127.0.0.1",
   "youtube_api_key": "",
-  "vip_password": ""
+  "vip_password": "",
+  "lofi_url": "https://www.youtube.com/live/rFZHOHl-L8A"
 }

@@ -26,7 +26,8 @@ DB_PATH = os.path.join(DATA, "dripfit.db")
 
 
 def load_config():
-    cfg = {"port": 8000, "host": "127.0.0.1", "youtube_api_key": "", "vip_password": ""}
+    cfg = {"port": 8000, "host": "127.0.0.1", "youtube_api_key": "", "vip_password": "",
+           "lofi_url": "https://www.youtube.com/live/rFZHOHl-L8A"}
     path = os.path.join(ROOT, "config.json")
     if os.path.exists(path):
         with open(path, encoding="utf-8") as f:
@@ -685,7 +686,8 @@ def claim(ach_id):
 # остальное (планы, питание, вода, настройки графиков) — в таблице kv.
 SYNC_KEYS = {"df-log", "df-workouts", "df-plans", "df-plan-done", "df-food", "df-water", "df-water-bonus",
              "df-ach", "df-ach-seen", "df-charts", "df-charts-per", "df-charts-mode", "df-vfav", "df-level",
-             "df-gen", "df-train-paid", "df-rank", "df-dyn", "df-dyn-per", "df-int"}
+             "df-gen", "df-train-paid", "df-rank", "df-dyn", "df-dyn-per", "df-int",
+             "df-shop", "df-study", "df-home", "df-money"}
 
 
 def sync_get_all(uid):
@@ -804,6 +806,39 @@ def music_search():
 
 
 # ---------------------------------------------------------------- служебное и сайт
+@app.get("/api/shop/music")
+def shop_music():
+    """Фоновая музыка из магазина: адрес берётся из config.json (lofi_url), чтобы менять его без правки сайта."""
+    url = CFG.get("lofi_url", "")
+    vid = url.rstrip("/").split("/")[-1].split("?")[0]
+    return jsonify({"lofi": {"title": "Lofi-радио 24/7", "url": url, "embed": f"https://www.youtube.com/embed/{vid}" if vid else ""}})
+
+
+@app.post("/api/shop/buy")
+@auth
+def shop_buy():
+    """Покупка за фиты на сервере: списывает цену и сохраняет покупку в аккаунте (ключ df-shop)."""
+    prices = {"freeze": 150, "fire": 200, "ice": 200, "neon": 400, "lava": 400, "ocean": 400, "aurora": 400, "gold": 400,
+              "quasar": 800, "confetti": 250, "sparks": 300, "trail": 350, "lofi": 3000}
+    item = str(body().get("id", ""))
+    if item not in prices:
+        return err("Нет такого товара", 404)
+    u = g.user
+    if not u["vip"] and u["fits"] < prices[item]:
+        return err("Не хватает фитов")
+    row = db().execute("SELECT v FROM kv WHERE user_id=? AND k='df-shop'", (u["id"],)).fetchone()
+    shop = json.loads(row["v"]) if row else {"own": {}, "worn": {}, "freezes": 0}
+    if item == "freeze":
+        shop["freezes"] = shop.get("freezes", 0) + 1
+    else:
+        shop.setdefault("own", {})[item] = 1
+    if not u["vip"]:
+        db().execute("UPDATE users SET fits=fits-? WHERE id=?", (prices[item], u["id"]))
+    db().execute("INSERT OR REPLACE INTO kv VALUES(?,?,?)", (u["id"], "df-shop", json.dumps(shop, ensure_ascii=False)))
+    db().commit()
+    return jsonify({"ok": True, "shop": shop})
+
+
 @app.get("/api/health")
 def health():
     return jsonify({"ok": True, "app": "Drip Fit", "time": now(), "youtube": bool(CFG.get("youtube_api_key"))})

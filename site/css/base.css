@@ -213,7 +213,7 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
 @keyframes sweep{from{background-position:100% 0}to{background-position:-100% 0}}
 body.quiet::before{animation-duration:6s}
 body.quiet::after{animation-duration:24s}
-@media(prefers-reduced-motion:reduce){body::before,body::after{animation:none}}
+
 
 /* тонкая тусклая анимированная обводка кнопок меню: одинаковая для всех, бело-серо-чёрный градиент бежит по контуру; при наведении исчезает */
 @property --ma{syntax:'<angle>';inherits:false;initial-value:0deg}

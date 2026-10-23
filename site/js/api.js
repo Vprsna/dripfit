@@ -8,7 +8,7 @@
    Без сервера (опубликованный макет) файл ничего не меняет — сайт работает на localStorage, как раньше. */
 (()=>{
 const SYNC=['df-log','df-workouts','df-plans','df-plan-done','df-food','df-water','df-water-bonus','df-ach','df-ach-seen','df-charts','df-charts-per',
- 'df-charts-mode','df-vfav','df-level','df-gen','df-train-paid','df-rank','df-dyn','df-dyn-per','df-int'];
+ 'df-charts-mode','df-vfav','df-level','df-gen','df-train-paid','df-rank','df-dyn','df-dyn-per','df-int','df-shop','df-study','df-home','df-money'];
 const RAWKEYS=['df-train-paid']; // хранятся строкой, не JSON
 const isSync=k=>SYNC.includes(k)||/^df-xp-/.test(k);
 const origSet=Storage.prototype.setItem,origGet=Storage.prototype.getItem,origDel=Storage.prototype.removeItem;
@@ -81,6 +81,7 @@ const ready=fn=>document.readyState==='loading'?document.addEventListener('DOMCo
 window.dfApi={get on(){return A.on},get user(){return A.user},live:()=>A.on&&!!A.user,call};
 fetch('/api/health',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(h=>{if(!h||!h.ok)return;A.on=true;
  ready(()=>{hookUI();document.documentElement.classList.add('api-on');
+  call('GET','/shop/music').then(r=>{try{const x=ITEMS.find(i=>i.id==='lofi');if(x&&r.lofi&&r.lofi.embed){x.src=r.lofi.embed;x.yt=r.lofi.url;apply()}}catch(e){}}).catch(()=>{});
   if(A.token)call('GET','/me').then(u=>{applyUser(u);dispatchEvent(new Event('dfapi-user'))}).catch(()=>{});
   dispatchEvent(new Event('dfapi'))})}).catch(()=>{});
 })();

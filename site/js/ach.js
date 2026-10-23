@@ -21,6 +21,8 @@ function stats(){const C=window.dfCat,L=C?C.log():[],days=new Set(),dayTon={};le
  return{logs:L.length,uniq:uniq.size,body,days:days.size,maxTon:Math.max(0,...Object.values(dayTon)),weekTon,km,
   wCreated:W.length,wDone:W.reduce((a,w)=>a+Object.keys(w.done||{}).length,0),
   foodDays:Object.values(food.days||{}).filter(a=>a&&a.length).length,water8:Object.values(water).filter(n=>n>=8).length,
+  ...(()=>{const st=ld('df-study',{})||{},T=st.tasks||[];return{focusN:Object.values(st.focus||{}).reduce((x,n)=>x+n,0),fives:(st.grades||[]).filter(g=>g.g===5).length,
+   reviews:st.reviews||0,tasksDone:T.filter(t=>t.done).length,onTime:T.filter(t=>t.done&&t.due&&t.done<=t.due).length}})(),
   friends:(ld('df-friends',{list:[]}).list||[]).length,fav:(ld('df-vfav',[])||[]).length,streak:12,lvl}}
 
 /* [id, раздел, иконка, название, условие, показатель, цель, награда] */
@@ -42,6 +44,11 @@ const A=[
  ['food1','Питание','note','Дневник питания','Запиши еду хотя бы за 1 день','foodDays',1,15],
  ['food7','Питание','note','Неделя под контролем','Веди дневник питания 7 дней','foodDays',7,100],
  ['water','Питание','cup','Водный баланс','Выпей 8 стаканов воды за день','water8',1,20],
+ ['stTask','Учёба','check','Без хвостов','Выполни 20 задач на вкладке «Учёба»','tasksDone',20,60],
+ ['stTime','Учёба','check','Точно в срок','10 задач сделано до срока','onTime',10,80],
+ ['stFocus','Учёба','spark','Мастер фокуса','10 фокус-сессий по 25 минут','focusN',10,100],
+ ['stFive','Учёба','crown','Отличник','Получи 5 пятёрок','fives',5,80],
+ ['stCards','Учёба','note','Зубрила','Повтори карточки 50 раз','reviews',50,60],
  ['fr1','Сообщество','smile','Не один','Добавь первого друга','friends',1,10],
  ['fr5','Сообщество','smile','Команда','5 друзей','friends',5,80],
  ['fav3','Знания','heart','Насмотренность','Добавь 3 видео в избранное','fav',3,15],

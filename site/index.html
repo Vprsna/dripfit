@@ -58,7 +58,7 @@
     <p class="lead">Тренируйся, отмечай привычки, копи фиты и поднимайся в рейтинге.</p>
     <div class="holdrow"><button class="hold" id="hold">Зажми. Соберись.</button><small class="holdnote" id="holdNote">Зажми кнопку или Enter. Шум затихнет.</small></div>
     <p class="calmmsg" id="calmMsg" hidden>Тишина. Теперь ты в игре.</p>
-    <div class="dayc" id="dayc">
+    <div class="dayc pin" id="dayc">
       <h3>Твой день</h3>
       <div class="dbig">12 дней <svg class="ic ic-fire" aria-hidden="true"><use href="#i-fire"/></svg></div>
       <div class="bar"><i style="width:40%"></i></div>
@@ -138,27 +138,134 @@
 <!-- УЧЁБА -->
 <section id="study" class="page">
   <h1>Учёба<br><em>Фокус</em></h1>
-  <div class="grid">
-    <div class="card"><h2>На сегодня</h2><ul class="list"><li>Конспект по физике <span>выполнено</span></li><li>Тренажёр по JS <span>в процессе</span></li></ul><button class="btn">Фокус-сессия 25 минут</button></div>
-    <div class="card"><h2>Серия учёбы</h2><p class="big">7 дней</p><div class="bar"><i style="width:70%"></i></div></div>
+  <div class="stgrid">
+    <div class="card pin wide stsched" id="stSched">
+      <h2>Расписание</h2>
+      <div class="schtop">
+        <label class="schcl">Мой класс<input id="schCl" maxlength="6" placeholder="например, 3Б" autocomplete="off"></label>
+        <label class="btn alt schfile"><input type="file" id="schFile" accept=".xlsx,.csv" hidden>Загрузить Excel</label>
+        <button type="button" class="btn alt" id="schEdit">Изменить вручную</button>
+      </div>
+      <p class="mut psm" id="schMsg">Загрузи таблицу с расписанием, которую прислали в школе (.xlsx), — сайт сам найдёт уроки твоего класса.</p>
+      <div class="schtoday" id="schToday"></div>
+      <div class="rkopt schdays" id="schDays"></div>
+      <ol class="schlist" id="schList"></ol>
+    </div>
+    <div class="card pin wide sttasks">
+      <h2>Мои задачи</h2>
+      <p class="mut">Запиши, что нужно сделать, — а потом отмечай выполненное. За каждую сделанную задачу +5 фитов (до 5 задач в день).</p>
+      <form class="stform" id="stForm" autocomplete="off">
+        <input id="stT" maxlength="80" placeholder="Что сделать: например, «Выучить параграф 12»" aria-label="Задача" required>
+        <input id="stS" maxlength="24" list="stSubj" placeholder="Предмет" aria-label="Предмет">
+        <datalist id="stSubj"><option>Математика</option><option>Русский язык</option><option>Литература</option><option>Английский</option><option>Физика</option><option>Химия</option><option>Биология</option><option>История</option><option>Информатика</option><option>Программирование</option></datalist>
+        <label class="stdue">Срок<input type="date" id="stD" aria-label="Срок"></label>
+        <button class="btn" type="submit">Добавить</button>
+      </form>
+      <div class="rkopt" id="stF"><button type="button" data-f="todo">Активные</button><button type="button" data-f="done">Сделано</button><button type="button" data-f="all">Все</button></div>
+      <ul class="stlist" id="stList"></ul>
+    </div>
+    <div class="card pin stprog">
+      <h2>Прогресс</h2>
+      <div class="stnum"><b id="stToday">0</b><small>сделано сегодня</small></div>
+      <div class="bar"><i id="stBar"></i></div>
+      <p class="mut" id="stLeft"></p>
+      <div class="stmini"><div><b id="stWeek">0</b><small>за неделю</small></div><div><b id="stStreak">0</b><small>дней подряд</small></div></div>
+    </div>
+    <div class="card pin stgrades" id="stGrades">
+      <h2>Оценки</h2>
+      <form class="grform" id="grForm" autocomplete="off">
+        <select id="grS" aria-label="Предмет"></select>
+        <div class="grbtns" id="grBtns"><button type="button" data-g="5">5</button><button type="button" data-g="4">4</button><button type="button" data-g="3">3</button><button type="button" data-g="2">2</button></div>
+        <div class="grtools"><button type="button" class="lnk2" id="grUndo">↶ Отменить последнюю</button><button type="button" class="lnk2 grclr" id="grClr">Стереть все</button></div>
+      </form>
+      <div class="gravg"><b id="grAvg">—</b><small>средний балл</small></div>
+      <ul class="grlist" id="grList"></ul>
+      <p class="mut psm">Нажми на оценку, чтобы поставить её по выбранному предмету. За пятёрку +10 фитов (до 3 в день).</p>
+    </div>
+    <div class="card pin stcards" id="stCards">
+      <h2>Карточки</h2>
+      <p class="mut">Запоминай слова, формулы и даты: вопрос — ответ. Что не помнишь, сайт покажет снова раньше.</p>
+      <div class="cdlearn" id="cdLearn"></div>
+      <form class="cdform" id="cdForm" autocomplete="off"><input id="cdQ" maxlength="120" placeholder="Вопрос: например, «apple»" required aria-label="Вопрос"><input id="cdA" maxlength="160" placeholder="Ответ: «яблоко»" required aria-label="Ответ"><button class="btn alt" type="submit">Добавить</button></form>
+      <details class="cdall"><summary id="cdSum">Все карточки</summary><ul class="cdlist" id="cdList"></ul></details>
+    </div>
+    <div class="card pin stfocus">
+      <h2>Фокус-сессия</h2>
+      <label class="stfs">Предмет<select id="stFS"><option>Без предмета</option></select></label>
+      <div class="sttime" id="stTime">25:00</div>
+      <p class="mut" id="stPh">25 минут без отвлечений, потом 5 минут отдыха</p>
+      <div class="sprow stbtns"><button type="button" class="btn" id="stGo">Старт</button><button type="button" class="btn alt" id="stReset">Сброс</button></div>
+      <p class="mut psm" id="stFc"></p>
+    </div>
+    <div class="card pin wide sttime2" id="stTimeC">
+      <h2>Время по предметам</h2>
+      <p class="mut">Минуты фокус-сессий за последние 7 дней. Выбери предмет в «Фокус-сессии», и время запишется сюда.</p>
+      <div class="tmbars" id="tmBars"></div>
+    </div>
   </div>
 </section>
 
 <!-- ДОМ -->
 <section id="home" class="page">
   <h1>Дом<br><em>Порядок</em></h1>
-  <div class="grid">
-    <div class="card"><h2>Дела на неделю</h2><ul class="list"><li>Вынести мусор <span>+5 фитов</span></li><li>Приготовить ужин <span>+15 фитов</span></li><li>Помыть пол <span>+20 фитов</span></li></ul></div>
-    <div class="card"><h2>Порядок</h2><p class="big">4 из 7</p><div class="bar"><i style="width:57%"></i></div></div>
+  <div class="stgrid">
+    <div class="card pin wide">
+      <h2>Мои дела</h2>
+      <p class="mut">Запиши домашние дела и как часто их делать — каждый день, по дням недели или один раз. Сделал — отметь. За дело +5 фитов (до 6 в день).</p>
+      <form class="stform hmform" id="hmForm" autocomplete="off">
+        <input id="hmT" maxlength="60" placeholder="Дело: например, «Вынести мусор»" required aria-label="Дело">
+        <select id="hmZ" aria-label="Где"><option>Кухня</option><option>Моя комната</option><option>Ванная</option><option>Вся квартира</option><option>Питомец</option><option>Растения</option><option>Другое</option></select>
+        <select id="hmR" aria-label="Как часто"><option value="d">Каждый день</option><option value="w">Раз в неделю</option><option value="o">Один раз</option></select>
+        <button class="btn" type="submit">Добавить</button>
+      </form>
+      <h3 class="hmh">Сегодня</h3><ul class="stlist" id="hmToday"></ul>
+      <details class="cdall"><summary id="hmAllS">Все дела</summary><ul class="cdlist" id="hmAll"></ul></details>
+    </div>
+    <div class="card pin">
+      <h2>Порядок сегодня</h2>
+      <div class="stnum"><b id="hmDone">0</b><small id="hmOf">из 0</small></div>
+      <div class="bar"><i id="hmBar"></i></div>
+      <div class="stmini"><div><b id="hmWeek">0</b><small>дел за неделю</small></div><div><b id="hmStreak">0</b><small>дней подряд</small></div></div>
+      <p class="mut psm" id="hmZones"></p>
+    </div>
+    <div class="card pin">
+      <h2>Список покупок</h2>
+      <form class="newpl" id="buyForm" autocomplete="off"><input id="buyT" maxlength="40" placeholder="Что купить" aria-label="Что купить"><button class="btn" type="submit">+</button></form>
+      <ul class="stlist buyl" id="buyList"></ul>
+      <button type="button" class="lnk2" id="buyClr">Убрать купленное</button>
+    </div>
   </div>
 </section>
-
-<!-- ДЕНЬГИ -->
 <section id="money" class="page">
   <h1>Деньги<br><em>Цель и факт</em></h1>
-  <div class="grid">
-    <div class="card"><h2>Октябрь</h2><p class="big">112 400 ₽ <small>из 150 000 ₽</small></p><div class="bar"><i style="width:75%"></i></div><button class="btn">Добавить доход</button></div>
-    <div class="card"><h2>Прошлые месяцы</h2><ul class="list"><li>Сентябрь <span>138 000 / 140 000</span></li><li>Август <span>150 500 / 130 000</span></li></ul></div>
+  <div class="stgrid">
+    <div class="card pin">
+      <h2 id="mnMonth">Месяц</h2>
+      <div class="stnum"><b id="mnInc">0 ₽</b><small id="mnGoalT">из цели</small></div>
+      <div class="bar"><i id="mnBar"></i></div>
+      <div class="stmini"><div><b id="mnExp">0 ₽</b><small>потрачено</small></div><div><b id="mnBal">0 ₽</b><small>осталось</small></div></div>
+      <form class="newpl" id="mnGoalF" autocomplete="off"><input id="mnGoal" type="number" min="0" step="100" inputmode="numeric" placeholder="Цель дохода на месяц, ₽" aria-label="Цель на месяц"><button class="btn alt" type="submit">OK</button></form>
+    </div>
+    <div class="card pin">
+      <h2>Добавить запись</h2>
+      <div class="rkopt" id="mnType"><button type="button" data-t="in" class="on">Доход</button><button type="button" data-t="out">Расход</button></div>
+      <form class="cdform mnform" id="mnForm" autocomplete="off">
+        <input id="mnSum" type="number" min="1" step="1" inputmode="numeric" placeholder="Сумма, ₽" required aria-label="Сумма">
+        <select id="mnCat" aria-label="Категория"></select>
+        <input id="mnNote" maxlength="40" placeholder="Комментарий (необязательно)" aria-label="Комментарий">
+        <button class="btn" type="submit">Записать</button>
+      </form>
+      <p class="mut psm">За цель месяца — +100 фитов.</p>
+    </div>
+    <div class="card pin wide">
+      <h2>Куда уходят деньги</h2>
+      <div class="tmbars" id="mnCats"></div>
+      <h3 class="hmh">Последние записи</h3><ul class="cdlist mnlist" id="mnList"></ul>
+    </div>
+    <div class="card pin wide">
+      <h2>По месяцам</h2>
+      <div class="dynbars" id="mnHist"></div>
+    </div>
   </div>
 </section>
 
@@ -415,6 +522,12 @@
 
 <div id="mbar" class="mbar"></div>
 <div class="mini" id="mini"><div class="c" id="miniC"></div><span id="miniN"></span><button id="miniP" aria-label="Пауза"><svg class="ic ic-pause" aria-hidden="true"><use href="#i-pause"/></svg></button></div>
+<button type="button" class="gbtn" id="gBtn" aria-label="Путеводитель по сайту" aria-expanded="false" title="Путеводитель по сайту"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.500h14a2.500 2.500 0 0 1 2.500 2.500v8.500a2.500 2.500 0 0 1-2.500 2.500h-8.500L5.500 21v-4H5a2.500 2.500 0 0 1-2.500-2.500V6A2.500 2.500 0 0 1 5 3.500z"/></svg></button>
+<div class="gpanel" id="gPanel" role="dialog" aria-label="Путеводитель по сайту" hidden>
+  <div class="ghead"><b>Путеводитель</b><small>Подсказки по сайту</small><button type="button" class="gx" id="gX" aria-label="Закрыть">×</button></div>
+  <div class="gchat" id="gChat" aria-live="polite"></div>
+  <div class="gchips gmenu" id="gChips"></div>
+</div>
 <script src="js/icons.js"></script>
 <script src="js/api.js"></script>
 <script>
@@ -465,9 +578,8 @@ const ITEMS=[
  {id:'confetti',t:'fx',n:'Эффект «Конфетти»',p:250,v:'<span class="ico"><svg class="ic ic-party" aria-hidden="true"><use href="#i-party"/></svg></span>'},
  {id:'sparks',t:'fx',n:'Эффект «Искры»',p:300,v:'<span class="ico"><svg class="ic ic-spark" aria-hidden="true"><use href="#i-spark"/></svg></span>'},
  {id:'trail',t:'fx',n:'Эффект «Неоновый след»',p:350,v:'<span class="ico"><svg class="ic ic-quasar" aria-hidden="true"><use href="#i-quasar"/></svg></span>'},
- {id:'lofi',t:'music',n:'Lofi-радио',p:300,src:'',v:'<span class="ico"><svg class="ic ic-phones" aria-hidden="true"><use href="#i-phones"/></svg></span>'},
- {id:'train',t:'music',n:'Музыка для тренировок',p:300,src:'',v:'<span class="ico"><svg class="ic ic-dumbbell" aria-hidden="true"><use href="#i-dumbbell"/></svg></span>'},
- {id:'morning',t:'music',n:'Утренний заряд',p:300,src:'',v:'<span class="ico"><svg class="ic ic-sunrise" aria-hidden="true"><use href="#i-sunrise"/></svg></span>'}];
+ {id:'lofi',t:'music',n:'Lofi-радио 24/7 (фон)',p:3000,epic:1,src:'https://www.youtube.com/embed/rFZHOHl-L8A',yt:'https://www.youtube.com/live/rFZHOHl-L8A',v:'<span class="ico"><svg class="ic ic-phones" aria-hidden="true"><use href="#i-phones"/></svg></span>'},
+];
 /* Музыка: в src указывается адрес встраиваемого плеера YouTube, например
    'https://www.youtube.com/embed/ВИДЕО_ID' или 'https://www.youtube.com/embed/live_stream?channel=КАНАЛ_ID' */
 function label(x){
@@ -475,7 +587,7 @@ function label(x){
   if(!own[x.id])return x.p+' '+ic('bolt');
   return worn[x.t]===x.id?(x.t==='music'?'Играет':'Надето'):(x.t==='music'?'Включить':'Надеть')}
 function drawShop(){
-  shelf.innerHTML=ITEMS.map(x=>'<div class="slot"><div class="cell'+(x.epic?' epic':'')+'">'+(x.epic?'<em>ЭПИК</em>':'')+x.v+'<small>'+x.n+'</small></div><button class="tag'+(own[x.id]&&worn[x.t]===x.id?' done':'')+'" data-id="'+x.id+'">'+label(x)+'</button></div>').join('');
+  shelf.innerHTML=ITEMS.map(x=>'<div class="slot"><div class="cell'+(x.epic?' epic':'')+'">'+(x.epic?'<em>'+(x.p>=3000?'ЛЕГЕНДА':'ЭПИК')+'</em>':'')+x.v+'<small>'+x.n+'</small></div><button class="tag'+(own[x.id]&&worn[x.t]===x.id?' done':'')+'" data-id="'+x.id+'">'+label(x)+'</button></div>').join('');
   drawInv();showFits()}
 function showFits(){fitsnum.textContent=fm(fits);document.querySelector('.chip').innerHTML=ic('bolt')+' '+fm(fits)+' фитов'}
 function apply(){
@@ -486,7 +598,7 @@ function playMusic(x){
   mbar.innerHTML='';mbar.classList.remove('on');
   if(!x)return;mbar.classList.add('on');
   if(!x.src){mbar.innerHTML='<p>'+x.n+'<br><small>Ссылка на источник пока не добавлена</small></p>';return}
-  mbar.innerHTML='<iframe src="'+x.src+(x.src.includes('?')?'&':'?')+'autoplay=1&playsinline=1" allow="autoplay; encrypted-media" title="'+x.n+'"></iframe><p>'+ic('note')+' '+x.n+'</p>'}
+  mbar.innerHTML='<iframe src="'+x.src+(x.src.includes('?')?'&':'?')+'autoplay=1&playsinline=1" allow="autoplay; encrypted-media" title="'+x.n+'"></iframe><p>'+ic('note')+' '+x.n+(x.yt?' <a href="'+x.yt+'" target="_blank" rel="noopener noreferrer">Открыть на YouTube ↗</a>':'')+'</p>'}
 const calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function burst(x,y,n,cols,sz){
   for(let i=0;i<n;i++){const e=document.createElement('i');e.className='pt';
@@ -499,7 +611,10 @@ let lt=0;
 document.addEventListener('mousemove',e=>{if(calm||worn.fx!=='trail'||Date.now()-lt<30)return;lt=Date.now();
   const d=document.createElement('i');d.className='tr';d.style.left=e.clientX+'px';d.style.top=e.clientY+'px';
   document.body.appendChild(d);setTimeout(()=>d.remove(),600)});
-function equip(x){worn[x.t]=worn[x.t]===x.id?null:x.id;apply();drawShop()}
+function equip(x){worn[x.t]=worn[x.t]===x.id?null:x.id;apply();drawShop();saveShop()}
+/* покупки сохраняются (df-shop) — с сервером модуля Б они хранятся в аккаунте */
+function saveShop(){try{localStorage.setItem('df-shop',JSON.stringify({own,worn,freezes}))}catch(e){}}
+function loadShop(){try{const s=JSON.parse(localStorage.getItem('df-shop'));if(s){Object.assign(own,s.own||{});Object.assign(worn,s.worn||{});freezes=s.freezes||0}}catch(e){}apply();drawShop()}
 function drawInv(){
   const mine=ITEMS.filter(x=>x.t!=='use'&&own[x.id]);
   const row=x=>'<div class="irow">'+x.v+'<span>'+x.n+'</span><button class="btn alt" data-id="'+x.id+'">'+(worn[x.t]===x.id?(x.t==='music'?'Выключить':'Снять'):(x.t==='music'?'Включить':'Надеть'))+'</button></div>';
@@ -514,8 +629,8 @@ shelf.onclick=e=>{const b=e.target.closest('button');if(!b)return;
   if(x.t!=='use'&&own[x.id]){equip(x);return}
   if(fits<x.p){b.textContent='Не хватает';setTimeout(drawShop,1200);return}
   fits-=x.p;if(x.t==='use')freezes++;else{own[x.id]=1;worn[x.t]=x.id;apply()}
-  drawShop()};
-drawShop();
+  drawShop();saveShop()};
+drawShop();loadShop();
 
 // ===== регистрация и вход (макет модуля А; проверка по базе данных будет в модуле Б) =====
 // Тестовый аккаунт с бесконечными фитами. С сервером (модуль Б) вход проверяется на сервере, пароль в БД — хешем.
@@ -528,7 +643,7 @@ function setMode(m){mode=m;afrm.dataset.mode=m;aIn.classList.toggle('on',m==='in
 function resetShop(){Object.keys(own).forEach(k=>delete own[k]);worn.frame=worn.theme=worn.fx=worn.music=null;freezes=0;apply();drawShop()}
 function syncHead(){hIn.hidden=hUp.hidden=!!user;hOut.hidden=!user}
 function enter(u){
-  user=u;fits=u.vip?Infinity:100;resetShop();syncHead();
+  user=u;fits=u.vip?Infinity:100;resetShop();loadShop();syncHead();
   const rank=u.vip?'Легенда, ур. 99':'Новичок, ур. 1';user.rank=rank;
   uname.textContent=u.name+' · '+rank;xpTxt.textContent=u.vip?'∞ опыта':'0 / 100 опыта';
   document.querySelector('.prof .bar i').style.width=u.vip?'100%':'0%';
@@ -613,7 +728,7 @@ fitsWord.innerHTML=[...fitsWord.textContent].map((c,i)=>'<i style="--i:'+i+'">'+
 function spark(){if(!heroOn())return;const l=fitsWord.querySelectorAll('i')[Math.floor(Math.random()*4)],e=document.createElement('span');
   e.className='spk';e.innerHTML=ic('bolt');e.style.left=l.offsetLeft+l.offsetWidth/2+'px';e.style.setProperty('--dx',rnd2(-30,30)+'px');
   fitsWord.appendChild(e);setTimeout(()=>e.remove(),1300)}
-if(!reduceMo)setInterval(spark,1100);
+setInterval(spark,1100);
 function coins(){
   const chipEl=[document.querySelector('.chip')].find(x=>x&&x.offsetParent),t=chipEl.getBoundingClientRect(),w=fitsWord.getBoundingClientRect();
   const tx=t.left+t.width/2-14,ty=t.top+t.height/2-14;
@@ -627,8 +742,8 @@ document.addEventListener('keydown',e=>{if((e.key!=='Enter')||e.repeat||!heroOn(
   const t=document.activeElement.tagName;if(['INPUT','TEXTAREA','SELECT'].includes(t)||(t==='BUTTON'&&document.activeElement!==hold))return;
   e.preventDefault();startHold()});
 document.addEventListener('keyup',e=>{if(e.key==='Enter')stopHold()});
-if(reduceMo){setQuiet(true);hold.hidden=true;holdNote.hidden=true;calmMsg.hidden=true}
-else{setInterval(()=>{if(heroOn())jitter()},1100);setInterval(spawnWord,900);setInterval(spawnNote,2600);jitter();setTimeout(spawnNote,600)}
+// раньше при «уменьшить движение» в Windows шум выключался совсем; теперь он всегда есть, а кнопка «Зажми. Соберись.» его гасит
+setInterval(()=>{if(heroOn())jitter()},1100);setInterval(spawnWord,900);setInterval(spawnNote,2600);jitter();setTimeout(spawnNote,600)
 
 // ===== календарь и история недель (демо-данные; в модуле Б будут браться из БД) =====
 const D=864e5,today=new Date();
@@ -677,9 +792,14 @@ window.dfWeekRefresh=()=>renderWeek();
 <script src="js/workouts.js"></script>
 <script src="js/rank.js"></script>
 <script src="js/food.js"></script>
+<script src="js/xlsx-read.js"></script>
+<script src="js/study.js"></script>
+<script src="js/study2.js"></script>
+<script src="js/life.js"></script>
 <script src="js/ach.js"></script>
 <script src="js/search.js"></script>
 <script src="js/pins.js"></script>
+<script src="js/guide.js"></script>
 <script>
 dsBtn.onclick=()=>{const t=dsTxt,old='',nick='xz4ys';
   (navigator.clipboard?navigator.clipboard.writeText(nick):Promise.reject()).catch(()=>{}).finally(()=>{t.textContent='Ник скопирован!';setTimeout(()=>t.textContent=old,1600)})};
